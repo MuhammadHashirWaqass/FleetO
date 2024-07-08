@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "351319868946",
+    "project_id": "fleeto-8a4ab",
+    "storage_bucket": "fleeto-8a4ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351319868946:android:d0ded5c9032c60104efacb",
+        "android_client_info": {
+          "package_name": "com.example.fleeto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4_6DSNh_SoiTU2ZZL9j5mTJWYCcXuIOI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
