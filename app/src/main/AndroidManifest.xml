@@ -13,6 +13,9 @@
         android:theme="@style/Theme.FleetO"
         tools:targetApi="31">
         <activity
+            android:name=".taskManagement"
+            android:exported="false" />
+        <activity
             android:name=".DriverManagement"
             android:exported="false" />
         <activity
