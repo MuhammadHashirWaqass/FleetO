@@ -13,6 +13,19 @@
         android:theme="@style/Theme.FleetO"
         tools:targetApi="31">
         <activity
+            android:name=".AddingTask"
+            android:exported="false" />
+        <activity
+            android:name=".AddingDriver"
+            android:exported="false" />
+        <activity
+            android:name=".DriverDash"
+            android:exported="false" />
+        <activity
+            android:name=".AdminDash"
+        android:exported="false" />
+      
+      <activity
             android:name=".taskManagement"
             android:exported="false" />
         <activity
