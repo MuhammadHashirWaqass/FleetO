@@ -54,43 +54,43 @@ public class AdminDash extends AppCompatActivity {
             }
         });
 
-        VFbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               // Intent vf = new Intent(getApplicationContext(), VehicleFleet.class);
-               // startActivity(vf);
-            }
-        });
+//        VFbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//               // Intent vf = new Intent(getApplicationContext(), VehicleFleet.class);
+//               // startActivity(vf);
+//            }
+//        });
 
-        FMbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               // Intent fm = new Intent(getApplicationContext(), FleetMap.class);
-               // startActivity(fm);
-            }
-        });
+//        FMbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//               // Intent fm = new Intent(getApplicationContext(), FleetMap.class);
+//               // startActivity(fm);
+//            }
+//        });
 
-        signoutBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences.Editor edit = getSharedPreferences("loginDetails", MODE_PRIVATE).edit();
-                edit.clear();
-                edit.apply();
+//        signoutBTN.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                SharedPreferences.Editor edit = getSharedPreferences("loginDetails", MODE_PRIVATE).edit();
+//                edit.clear();
+//                edit.apply();
+//
+//                Intent signout = new Intent(getApplicationContext(), MainActivity.class);
+//                startActivity(signout);
+//                finish();
+//                Toast.makeText(getApplicationContext(), "Signed out", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
-                Intent signout = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(signout);
-                finish();
-                Toast.makeText(getApplicationContext(), "Signed out", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        TaskBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              //  Intent t = new Intent(getApplicationContext(), TaskC.class);
-               // startActivity(t);
-            }
-        });
+//        TaskBTN.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//              //  Intent t = new Intent(getApplicationContext(), TaskC.class);
+//               // startActivity(t);
+//            }
+//        });
     }
     private String getAdminName() {
         Ref.addValueEventListener(new ValueEventListener() {

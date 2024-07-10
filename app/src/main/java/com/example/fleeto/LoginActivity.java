@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                         {
                             progressDialog.dismiss();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            startActivity(new Intent(LoginActivity.this, AdminDash.class));
                             finish();
                             Toast.makeText(LoginActivity.this,"User Logged In",Toast.LENGTH_SHORT).show();
                         }
