@@ -37,7 +37,6 @@ public class AdminDash extends AppCompatActivity {
         });
 
         DMbtn = findViewById(R.id.DMbtn);
-        VFbtn = findViewById(R.id.VFbtn);
         FMbtn = findViewById(R.id.FMbtn);
         DISPadmin = findViewById(R.id.DISPadmin);
         TaskBTN = findViewById(R.id.TaskBTN);
@@ -50,8 +49,8 @@ public class AdminDash extends AppCompatActivity {
         DMbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent dm = new Intent(getApplicationContext(), DriverManage.class);
-                //startActivity(dm);
+                Intent dm = new Intent(getApplicationContext(), AddingDriver.class);
+                startActivity(dm);
             }
         });
 
