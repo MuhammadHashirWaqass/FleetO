@@ -23,6 +23,13 @@
             android:exported="false" />
         <activity
             android:name=".AdminDash"
+        android:exported="false" />
+      
+      <activity
+            android:name=".taskManagement"
+            android:exported="false" />
+        <activity
+            android:name=".DriverManagement"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
