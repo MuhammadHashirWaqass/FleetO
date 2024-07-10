@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class AdminDash extends AppCompatActivity {
+    private FirebaseAuth mAuth;
     Button DMbtn, VFbtn, FMbtn, signoutBTN, TaskBTN;
     TextView DISPadmin;
     DatabaseReference Ref;
@@ -36,6 +38,8 @@ public class AdminDash extends AppCompatActivity {
             return insets;
         });
 
+        mAuth = FirebaseAuth.getInstance();
+
         DMbtn = findViewById(R.id.DMbtn);
         FMbtn = findViewById(R.id.FMbtn);
         DISPadmin = findViewById(R.id.DISPadmin);
@@ -43,7 +47,8 @@ public class AdminDash extends AppCompatActivity {
         signoutBTN = findViewById(R.id.signoutBTN);
         Ref = FirebaseDatabase.getInstance().getReference("Admins");
 
-        String adminName = getAdminName();
+        String adminName = mAuth.getCurrentUser().getEmail();
+        System.out.println("ADMIN NAME: "+ adminName);
         DISPadmin.setText(adminName);
 
         DMbtn.setOnClickListener(new View.OnClickListener() {

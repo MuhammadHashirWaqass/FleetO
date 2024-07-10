@@ -32,10 +32,10 @@
             android:name=".DriverManagement"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".OwnerRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".OwnerLoginActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
