@@ -7,6 +7,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,16 +16,28 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AdminDash extends AppCompatActivity {
+    private FirebaseAuth mAuth;
     Button DMbtn, VFbtn, FMbtn, signoutBTN, TaskBTN;
     TextView DISPadmin;
     DatabaseReference Ref;
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +49,8 @@ public class AdminDash extends AppCompatActivity {
             return insets;
         });
 
+        mAuth = FirebaseAuth.getInstance();
+
         DMbtn = findViewById(R.id.DMbtn);
         FMbtn = findViewById(R.id.FMbtn);
         DISPadmin = findViewById(R.id.DISPadmin);
@@ -43,8 +58,19 @@ public class AdminDash extends AppCompatActivity {
         signoutBTN = findViewById(R.id.signoutBTN);
         Ref = FirebaseDatabase.getInstance().getReference("Admins");
 
-        String adminName = getAdminName();
+        String adminName = mAuth.getCurrentUser().getEmail();
+        System.out.println("ADMIN NAME: "+ adminName);
         DISPadmin.setText(adminName);
+
+        // logout user
+        signoutBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog = new ProgressDialog(AdminDash.this);
+                progressDialog.setMessage("Logging Out...");
+                logoutUser();
+            }
+        });
 
         DMbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,5 +137,17 @@ public class AdminDash extends AppCompatActivity {
             }
         });
         return null;
+    }
+
+    // function to logout owner
+    private void logoutUser() {
+        progressDialog.show();
+        mAuth.signOut();
+        progressDialog.dismiss();
+        Intent intent = new Intent(AdminDash.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+        Toast.makeText(AdminDash.this,"Logged Out Successfully",Toast.LENGTH_LONG).show();
+
     }
 }
