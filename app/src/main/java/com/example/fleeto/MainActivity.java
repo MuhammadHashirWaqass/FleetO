@@ -42,8 +42,10 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         mAuth = FirebaseAuth.getInstance();
         temp = findViewById(R.id.AdminLoginTV);
+
         temp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

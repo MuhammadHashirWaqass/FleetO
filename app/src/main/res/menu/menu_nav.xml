@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id = "@+id/nav_drivers"
+        android:title = "Drivers"
+        android:icon = "@drawable/ic_drivers_black"/>
+
+    <item android:id = "@+id/nav_tasks"
+        android:title = "Tasks"
+        android:icon = "@drawable/ic_task_black"/>
+
+    <item android:id = "@+id/nav_tracker"
+        android:title = "Tracking"
+        android:icon = "@drawable/ic_tracker_black"/>
+
+    <item android:id = "@+id/nav_profile"
+        android:title = "Profile"
+        android:icon = "@drawable/ic_profile_black"/>
+
+</menu>
