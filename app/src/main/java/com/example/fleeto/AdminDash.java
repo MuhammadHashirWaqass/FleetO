@@ -58,8 +58,7 @@ public class AdminDash extends AppCompatActivity {
         signoutBTN = findViewById(R.id.signoutBTN);
         Ref = FirebaseDatabase.getInstance().getReference("Admins");
 
-        String adminName = mAuth.getCurrentUser().getEmail();
-        System.out.println("ADMIN NAME: "+ adminName);
+        String adminName = User.getUserInstance().getName();
         DISPadmin.setText(adminName);
 
         // logout user

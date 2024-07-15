@@ -60,7 +60,7 @@ public class OwnerLoginActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        url = new ApiPath().getUrl();
+        url = ApiPath.getInstance().getUrl();
         mAuth = FirebaseAuth.getInstance();
         back = findViewById(R.id.BackFromLoginBTN);
 
@@ -133,7 +133,7 @@ public class OwnerLoginActivity extends AppCompatActivity {
     }
 
     private void loginUser(String email, String password){
-
+        progressDialog.show();
         RequestQueue queue = Volley.newRequestQueue(this);
 
         // Create JSON object for the request body
@@ -149,7 +149,23 @@ public class OwnerLoginActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject  response) {
-                        Log.d("api", response.toString());
+                        try {
+                            progressDialog.dismiss();
+                            Toast.makeText(OwnerLoginActivity.this,response.getString("message"),Toast.LENGTH_SHORT).show();
+
+                            if (response.getString("message").equals("Logged In Successfully")){
+                                // Store user instance
+                                User.getUserInstance().setUserId(response.getInt("userId"));
+                                User.getUserInstance().setEmail(email);
+                                User.getUserInstance().setPassword(password);
+                                User.getUserInstance().setName(response.getString("name"));
+                                startActivity(new Intent(OwnerLoginActivity.this, AdminDash.class));
+                                finish();
+                            }
+
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override

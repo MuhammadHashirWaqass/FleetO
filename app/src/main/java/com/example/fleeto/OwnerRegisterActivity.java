@@ -65,7 +65,7 @@ public class OwnerRegisterActivity extends AppCompatActivity {
             return insets;
         });
 
-        url = new ApiPath().getUrl();
+        url = ApiPath.getInstance().getUrl();
         back = findViewById(R.id.BackFromRegisterBTN);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -165,7 +165,7 @@ public class OwnerRegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Check if user already exists
+                // register the owner
                 registerUser(name, email,password);
 
             }
@@ -196,6 +196,19 @@ public class OwnerRegisterActivity extends AppCompatActivity {
                         try {
                             progressDialog.dismiss();
                             Toast.makeText(OwnerRegisterActivity.this,response.getString("message"),Toast.LENGTH_SHORT).show();
+
+
+                            if (response.getString("message").equals("User Added Successfully")){
+                                // Store user instance
+                                User.getUserInstance().setUserId(response.getInt("userId"));
+                                User.getUserInstance().setEmail(email);
+                                User.getUserInstance().setPassword(password);
+                                User.getUserInstance().setName(name);
+                                startActivity(new Intent(OwnerRegisterActivity.this, AdminDash.class));
+                                finish();
+                            }
+
+
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
