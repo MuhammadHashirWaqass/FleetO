@@ -66,7 +66,7 @@ public class AdminDash extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setTitle("Profile");
         }
-
+        navigationView.setSelectedItemId(R.id.nav_profile);
         UserProfileFragment fragment1 = new UserProfileFragment();
         FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
         ft1.replace(R.id.content, fragment1, "");
@@ -86,6 +86,22 @@ public class AdminDash extends AppCompatActivity {
                         FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
                         ft1.replace(R.id.content, fragment1, "");
                         ft1.commit();
+                        return true;
+                    }
+                    if(item.getItemId() == R.id.nav_drivers) {
+                        if (actionBar != null) {
+                            actionBar.setTitle("Drivers");
+                        }
+                        Intent intent = new Intent(AdminDash.this, AddingDriver.class);
+                        startActivity(intent);
+                        return true;
+                    }
+                    if(item.getItemId() == R.id.nav_tasks) {
+                        if (actionBar != null) {
+                            actionBar.setTitle("Tasks");
+                        }
+                        Intent intent = new Intent(AdminDash.this, AddingTask.class);
+                        startActivity(intent);
                         return true;
                     }
 
