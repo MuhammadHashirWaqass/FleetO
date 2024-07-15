@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +22,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -28,8 +36,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class OwnerLoginActivity extends AppCompatActivity {
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
+public class OwnerLoginActivity extends AppCompatActivity {
+    String url;
     private FirebaseAuth mAuth;
     Button back;
     Button LoginConfirm;
@@ -46,8 +60,10 @@ public class OwnerLoginActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        url = new ApiPath().getUrl();
         mAuth = FirebaseAuth.getInstance();
         back = findViewById(R.id.BackFromLoginBTN);
+
 
         // Input fields
         LoginConfirm = findViewById(R.id.ConfirmLoginBTN);
@@ -116,29 +132,45 @@ public class OwnerLoginActivity extends AppCompatActivity {
 
     }
 
-    // handling sign in
-    private void loginUser(String email, String password) {
-        progressDialog.show();
-        // firebase sign in
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful())
-                        {
-                            progressDialog.dismiss();
-                            startActivity(new Intent(OwnerLoginActivity.this, AdminDash.class));
-                            finish();
-                            Toast.makeText(OwnerLoginActivity.this,"User Logged In",Toast.LENGTH_SHORT).show();
-                        }
+    private void loginUser(String email, String password){
 
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        // Create JSON object for the request body
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("email", email);
+            jsonBody.put("password", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest  = new JsonObjectRequest(Request.Method.POST, url + "/api/auth/signInOwner", jsonBody,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(OwnerLoginActivity.this,"Incorrect Credentials",Toast.LENGTH_LONG).show();
+                    public void onResponse(JSONObject  response) {
+                        Log.d("api", response.toString());
                     }
-                });
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("api", "onError: " +  error);
+            }
+
+        }
+
+        )
+        {
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=UTF-8";
+            }
+        };
+
+
+        // Add the request to the RequestQueue.
+        queue.add(jsonObjectRequest);
     }
+
 }
