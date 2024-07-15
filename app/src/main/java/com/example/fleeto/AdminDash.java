@@ -88,6 +88,17 @@ public class AdminDash extends AppCompatActivity {
                         ft1.commit();
                         return true;
                     }
+                    if(item.getItemId() == R.id.nav_tracker) {
+                        if (actionBar != null) {
+                            actionBar.setTitle("Tracking");
+                        }
+                        TrackingFragment fragment2 = new TrackingFragment();
+                        FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
+                        ft2.replace(R.id.content, fragment2, "");
+                        ft2.commit();
+                        return true;
+                    }
+
                     if(item.getItemId() == R.id.nav_drivers) {
                         if (actionBar != null) {
                             actionBar.setTitle("Drivers");
