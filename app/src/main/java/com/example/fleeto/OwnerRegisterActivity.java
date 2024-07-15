@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -31,10 +38,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class OwnerRegisterActivity extends AppCompatActivity {
+    String url;
     Button back;
     Button RegisterConfirm;
     EditText Name, Email, Password, confirmPassword;
@@ -54,6 +65,7 @@ public class OwnerRegisterActivity extends AppCompatActivity {
             return insets;
         });
 
+        url = ApiPath.getInstance().getUrl();
         back = findViewById(R.id.BackFromRegisterBTN);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -153,7 +165,7 @@ public class OwnerRegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Check if user already exists
+                // register the owner
                 registerUser(name, email,password);
 
             }
@@ -164,36 +176,63 @@ public class OwnerRegisterActivity extends AppCompatActivity {
     // function to register owner
     private void registerUser(String name, String email, String password) {
         progressDialog.show();
-        // firebase auth function
-        mAuth.createUserWithEmailAndPassword(email,password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful())
-                        {
-                            // Add owner in firestore
-                            String userId = mAuth.getCurrentUser().getUid();
 
-                            // Store additional user information in Firestore
-                            DocumentReference documentReference = db.collection("users").document(userId);
-                            Map<String, Object> user = new HashMap<>();
-                            user.put("name", name);
-                            user.put("email", email);
-                            user.put("password", password);
-                            user.put("role", "owner");
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        // Create JSON object for the request body
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("email", email);
+            jsonBody.put("password", password);
+            jsonBody.put("name", name);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest  = new JsonObjectRequest(Request.Method.POST, url + "/api/auth/signUpOwner", jsonBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
                             progressDialog.dismiss();
-                            startActivity(new Intent(OwnerRegisterActivity.this, AdminDash.class));
-                            finish();
-                            Toast.makeText(OwnerRegisterActivity.this,"User Registered",Toast.LENGTH_SHORT).show();
-                        }
+                            Toast.makeText(OwnerRegisterActivity.this,response.getString("message"),Toast.LENGTH_SHORT).show();
 
+
+                            if (response.getString("message").equals("User Added Successfully")){
+                                // Store user instance
+                                User.getUserInstance().setUserId(response.getInt("userId"));
+                                User.getUserInstance().setEmail(email);
+                                User.getUserInstance().setPassword(password);
+                                User.getUserInstance().setName(name);
+                                startActivity(new Intent(OwnerRegisterActivity.this, AdminDash.class));
+                                finish();
+                            }
+
+
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(OwnerRegisterActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
-                    }
-                });
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("api", "onError: " +  error);
+            }
+
+        }
+
+        )
+        {
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=UTF-8";
+            }
+        };
+
+
+        // Add the request to the RequestQueue.
+        queue.add(jsonObjectRequest);
+
     }
 }
