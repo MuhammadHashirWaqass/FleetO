@@ -56,7 +56,7 @@ public class OwnerLoginActivity extends AppCompatActivity {
         Register = findViewById(R.id.RegisterTVLogin);
 
         // Setting color of Register
-        SpannableString spannableString = new SpannableString("Already have an account? Register");
+        SpannableString spannableString = new SpannableString("Don't have an account? Register");
         int startIndex = spannableString.toString().indexOf("Register");
         int endIndex = startIndex + "Register".length();
         int lightBlueColor = Color.parseColor("#6495ED");
