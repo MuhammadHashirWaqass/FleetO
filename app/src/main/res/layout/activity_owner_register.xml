@@ -153,7 +153,6 @@
             android:text="Register" />
 
         <TextView
-            android:textColor="@android:color/holo_blue_light"
             android:gravity="center"
             android:id="@+id/LoginTVRegister"
             android:layout_width="match_parent"

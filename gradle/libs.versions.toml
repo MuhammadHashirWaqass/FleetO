@@ -13,6 +13,7 @@ firebaseAuth = "23.0.0"
 firebaseFirestore = "25.0.0"
 firebaseDatabase = "21.0.0"
 volley = "1.2.1"
+playServicesMaps = "19.0.0"
 
 [libraries]
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
@@ -26,7 +27,11 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+
 volley = { module = "com.android.volley:volley", version.ref = "volley" }
+
+play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

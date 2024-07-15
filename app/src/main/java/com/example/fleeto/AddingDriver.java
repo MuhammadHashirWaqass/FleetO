@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 public class AddingDriver extends AppCompatActivity {
 
     EditText DriverID, DriverN, DriverA,DriverVehicle,DriverPass;
-    Button AddDbtn;
+    Button AddDbtn, back;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference Ref;
     FirebaseAuth auth;
@@ -33,12 +33,14 @@ public class AddingDriver extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adding_driver);
 
-        DriverID = findViewById(R.id.AddingDriverIDET);
-        DriverN = findViewById(R.id.AddingDriverNameET);
-        DriverA = findViewById(R.id.AddingDriverAgeET);
-        DriverVehicle= findViewById(R.id.AddingDriverVehicleET);
-        DriverPass = findViewById(R.id.AddingDriverPassET);
-        AddDbtn = findViewById(R.id.AddingDriverAddBTN);
+        DriverID = findViewById(R.id.AddingDriverID);
+        DriverN = findViewById(R.id.AddingDriverName);
+        DriverA = findViewById(R.id.AddingDriverAge);
+        DriverVehicle= findViewById(R.id.AddingDriverVehicle);
+        DriverPass = findViewById(R.id.AddingDriverPassword);
+        AddDbtn = findViewById(R.id.ConfirmDriverBTN);
+        back = findViewById(R.id.BackFromAddingDBTN);
+
 
         auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
@@ -55,6 +57,12 @@ public class AddingDriver extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 OnAddBTN(v);
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

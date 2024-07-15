@@ -7,87 +7,137 @@
     android:layout_height="match_parent"
     tools:context=".AddingTask">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:titleTextColor="#000000"/>
+    <!--    <androidx.appcompat.widget.Toolbar-->
+    <!--        android:id="@+id/toolbar"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="?attr/colorPrimary"-->
+    <!--        android:minHeight="?attr/actionBarSize"-->
+    <!--        android:theme="?attr/actionBarTheme"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.0" />-->
 
-    <TextView
-        android:id="@+id/toolbar_title"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:lines="1"
-        android:text="Add Task"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbar2" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/TitleTVLogin"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:gravity="center_horizontal|center_vertical"-->
+    <!--        android:lines="1"-->
+    <!--        android:text="Owner Login"-->
+    <!--        android:textAlignment="gravity"-->
+    <!--        android:textColor="#000000"-->
+    <!--        android:textSize="24sp"-->
+    <!--        app:autoSizeTextType="none"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/toolbar"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/toolbar"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/toolbar" />-->
 
-
-    <EditText
-        android:id="@+id/AddingTaskTitleET"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Enter Task Title"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        app:layout_constraintVertical_bias="0.16" />
-
-    <EditText
-        android:id="@+id/AddingTaskEndLocET"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Enter Task Address"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        app:layout_constraintVertical_bias="0.48" />
-
-    <EditText
-        android:id="@+id/AddingTaskDescET"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Enter Task Description"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        app:layout_constraintVertical_bias="0.32" />
 
     <Button
-        android:id="@+id/AddingDriverAddBTN"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add"
+        android:layout_marginLeft="10sp"
+
+        android:id="@+id/BackFromAddingTBTN"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:background="@drawable/home_icon"
+        android:contentDescription="Back from Adding Task Screen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.043"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AddingTaskEndLocET"
-        app:layout_constraintVertical_bias="0.516" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
+    <LinearLayout
+        android:paddingHorizontal="30sp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Tasks"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.267" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Task Details"
+            android:textColor="@android:color/tertiary_text_dark"
+            android:textSize="18sp"
+            android:layout_marginBottom="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.267" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Title"/>
+
+        <EditText
+            android:paddingVertical="16sp"
+            android:id="@+id/AddingTaskTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginBottom="20dp"
+            android:hint="Enter Task Title"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description"/>
+
+        <EditText
+            android:paddingVertical="16sp"
+            android:id="@+id/AddingDriverID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginBottom="20dp"
+            android:hint="Enter Task Description"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Address"/>
+
+        <EditText
+            android:paddingVertical="16sp"
+            android:id="@+id/AddingDriverVehicle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginBottom="20dp"
+            android:hint="Enter Task Address"
+            />
+        <Button
+            android:id="@+id/ConfirmTaskBTN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Add" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

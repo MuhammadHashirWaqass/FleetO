@@ -82,7 +82,6 @@
             android:text="Login" />
 
         <TextView
-            android:textColor="@android:color/holo_blue_light"
             android:gravity="center"
             android:id="@+id/AdminLoginTV"
             android:layout_width="match_parent"
