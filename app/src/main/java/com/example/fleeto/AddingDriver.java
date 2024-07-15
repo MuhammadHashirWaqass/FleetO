@@ -42,11 +42,9 @@ public class AddingDriver extends AppCompatActivity {
         back = findViewById(R.id.BackFromAddingDBTN);
 
 
-        auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
-        if (user != null) {
-            adminEmail = user.getEmail().replace(".", "_"); // Replace "." to avoid issues with Firebase keys
-            Ref = database.getReference("Drivers").child(adminEmail);
+
+        if (User.getUserInstance() != null) {
+            adminEmail = User.getUserInstance().getEmail().replace(".", "_"); // Replace "." to avoid issues with Firebase keys
         } else {
             Toast.makeText(getApplicationContext(), "Admin not logged in", Toast.LENGTH_SHORT).show();
             finish();
