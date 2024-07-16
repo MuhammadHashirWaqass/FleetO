@@ -2,98 +2,142 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DriverManagementFragment">
 
-    <TextView
-        android:id="@+id/driver_label"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Drivers"
-        android:textSize="32dp"
-        android:textStyle="bold"
+        android:layout_marginVertical="10dp"
+        android:paddingHorizontal="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.032"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.039" />
+        app:layout_constraintVertical_bias="0.0">
 
-    <Button
-        android:id="@+id/add_driver_btn"
+        <TextView
+            android:id="@+id/driver_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Drivers"
+            android:textSize="32dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/add_driver_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Driver"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <HorizontalScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Driver"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.039" />
-
-    <TableLayout
-        android:id="@+id/driver_table_layout"
-        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/driver_label" >
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        android:background="@drawable/table_border"
+        android:layout_marginHorizontal="11sp"
+        android:layout_marginVertical="20dp"
+        android:fillViewport="true"
 
-        <!-- Heading of table -->
-        <TableRow
+        >
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-            <TextView
-                android:id="@+id/id_heading"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="17dp"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                android:text="ID" />
+            <TableLayout
+                android:layout_marginTop="8sp"
+                android:id="@+id/driver_table_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
 
-            <TextView
-                android:id="@+id/name_heading"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="17dp"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                android:text="Name" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-            <TextView
-                android:id="@+id/password_heading"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="17dp"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                android:text="Password" />
 
-            <TextView
-                android:id="@+id/car_heading"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="17dp"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                android:text="Car" />
+                <!--        Heading of table-->
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="10sp"
+                    >
 
-            <TextView
-                android:id="@+id/action_heading"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="17dp"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                android:text="Actions" />
-        </TableRow>
+                    <TextView
+                        android:id="@+id/id_heading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="18dp"
+                        android:text="ID"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-    </TableLayout>
+                    <TextView
+                        android:id="@+id/name_heading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="18dp"
+                        android:text="Name"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/password_heading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="18dp"
+                        android:text="Password"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/car_heading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="18dp"
+                        android:text="@string/car"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/action_heading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="18dp"
+                        android:text="@string/actions"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+<!--                    <Button-->
+<!--                        -->
+<!--                        android:background="@drawable/baseline_add_24"-->
+<!--                        android:layout_width="20sp"-->
+<!--                        android:layout_height="20sp"-->
+<!--                        android:paddingHorizontal="18dp"-->
+<!--                        android:textSize="16sp"-->
+<!--                        android:textStyle="bold" />-->
+                </TableRow>
+
+            </TableLayout>
+        </ScrollView>
+    </HorizontalScrollView>
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

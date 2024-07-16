@@ -39,9 +39,6 @@
             android:name=".taskManagement"
             android:exported="false" />
         <activity
-            android:name=".DriverManagement"
-            android:exported="false" />
-        <activity
             android:name=".OwnerRegisterActivity"
             android:exported="false" />
         <activity

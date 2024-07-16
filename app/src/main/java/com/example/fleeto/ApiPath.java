@@ -5,7 +5,7 @@ public class ApiPath {
     private String url;
 
     private ApiPath(){
-        this.url= "http://192.168.1.7:3000";
+        this.url= "http://192.168.1.14:3000";
     };
 
     public static ApiPath getInstance() {
