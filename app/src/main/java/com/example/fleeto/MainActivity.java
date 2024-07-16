@@ -1,7 +1,11 @@
 package com.example.fleeto;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView temp;
+    TextView temp, owner;
     FirebaseAuth mAuth;
 
     @Override
@@ -46,6 +50,15 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         temp = findViewById(R.id.AdminLoginTV);
 
+        // Setting color of Open Owner Login
+        SpannableString spannableString = new SpannableString("Are you an Owner? Login Here");
+        int startIndex = spannableString.toString().indexOf("Login Here");
+        int endIndex = startIndex + "Login Here".length();
+        int lightBlueColor = Color.parseColor("#6495ED");
+        spannableString.setSpan(new ForegroundColorSpan(lightBlueColor), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        temp.setText(spannableString);
+
+        // Open Owner Login
         temp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,5 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(temp);
             }
         });
+
+
     }
 }
