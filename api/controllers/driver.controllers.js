@@ -19,4 +19,36 @@ const getDriversOfOwner = async (req, res) => {
   }
 };
 
-module.exports = { getDriversOfOwner };
+const addDriverToOwner = async (req, res) => {
+  try {
+    const { name, age, password, vehicle, ownerId } = req.body;
+
+    connection.query(
+      "INSERT INTO Driver(name, password, age, vehicle) VALUES (?,?,?,?)",
+      [name, password, age, vehicle],
+      (err, result) => {
+        if (err) {
+          return res.json({
+            message: "Error while inserting into Driver" + err.message,
+          });
+        }
+        const insertedDriverId = result.insertId;
+        connection.query(
+          "INSERT INTO OwnerDrivers (ownerId, driverId) VALUES (?,?)",
+          [ownerId, insertedDriverId],
+          (err, result) => {
+            if (err) {
+              return res.json({
+                message:
+                  "Error while inserting into OwnerDrivers" + err.message,
+              });
+            }
+            return res.json({ message: "Inserted Driver Successfully" });
+          }
+        );
+      }
+    );
+  } catch (error) {}
+};
+
+module.exports = { getDriversOfOwner, addDriverToOwner };
