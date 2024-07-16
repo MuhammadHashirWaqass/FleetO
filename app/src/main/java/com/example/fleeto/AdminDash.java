@@ -113,8 +113,10 @@ public class AdminDash extends AppCompatActivity {
                         if (actionBar != null) {
                             actionBar.setTitle("Tasks");
                         }
-                        Intent intent = new Intent(AdminDash.this, AddingTask.class);
-                        startActivity(intent);
+                        TaskManagementFragment fragment4 = new TaskManagementFragment();
+                        FragmentTransaction ft4 = getSupportFragmentManager().beginTransaction();
+                        ft4.replace(R.id.content, fragment4, "");
+                        ft4.commit();
                         return true;
                     }
 

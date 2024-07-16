@@ -9,7 +9,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class DriverManagement extends AppCompatActivity {
-
+    //DO NOT WRITE CODE HERE. WRITE CODE IN DRIVERMANAGEMENTFRAGMENT
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
