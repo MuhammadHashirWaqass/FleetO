@@ -123,6 +123,14 @@
                         android:text="@string/actions"
                         android:textSize="16sp"
                         android:textStyle="bold" />
+<!--                    <Button-->
+<!--                        -->
+<!--                        android:background="@drawable/baseline_add_24"-->
+<!--                        android:layout_width="20sp"-->
+<!--                        android:layout_height="20sp"-->
+<!--                        android:paddingHorizontal="18dp"-->
+<!--                        android:textSize="16sp"-->
+<!--                        android:textStyle="bold" />-->
                 </TableRow>
 
             </TableLayout>

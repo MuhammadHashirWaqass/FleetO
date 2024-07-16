@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -169,13 +170,13 @@ public class DriverManagementFragment extends Fragment {
                 TextView nameTextView = createTextView(listOfDrivers.getJSONObject(i).getString("name"));
                 TextView passwordTextView = createTextView(listOfDrivers.getJSONObject(i).getString("password"));
                 TextView carTextView = createTextView(listOfDrivers.getJSONObject(i).getString("vehicle"));
-                TextView action = createTextView("AC");
+                Button addTaskToDriverButton = createAddDriverButton(listOfDrivers.getJSONObject(i).getString("driverId"));
 
                 tableRow.addView(idTextView);
                 tableRow.addView(nameTextView);
                 tableRow.addView(passwordTextView);
                 tableRow.addView(carTextView);
-                tableRow.addView(action);
+                tableRow.addView(addTaskToDriverButton);
 
                 int paddingVertical = (int) (10 * getResources().getDisplayMetrics().density);
                 tableRow.setPadding(0,paddingVertical,0,paddingVertical);
@@ -186,6 +187,32 @@ public class DriverManagementFragment extends Fragment {
             tableLayout.addView(tableRow);
         }
 
+    }
+
+    private Button createAddDriverButton (String contentDescription){
+        // Create the Button
+        Button button = new Button(this.getContext());
+        button.setText("+");
+        button.setBackgroundResource(R.drawable.button_drawable); // Set background drawable
+
+            button.setLayoutParams(new TableRow.LayoutParams(
+                    (int) getResources().getDisplayMetrics().scaledDensity * 20,
+                    (int) getResources().getDisplayMetrics().scaledDensity * 20
+            )) ;
+        button.setPadding(0, 0, 0, 0); // Set horizontal padding in dp
+        button.setTextSize(16); // Set text size to 16sp
+        button.setTypeface(button.getTypeface(), Typeface.BOLD); // Set text style to bold
+        button.setContentDescription(contentDescription);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DriverId.getInstance().setDriverId(Integer.parseInt(contentDescription));
+                startActivity(new Intent(requireContext(), AddingTask.class));
+            }
+        });
+
+        return button;
     }
 
     private TextView createTextView(String text) {

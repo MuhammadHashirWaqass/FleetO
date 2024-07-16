@@ -74,6 +74,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.267" />
         <TextView
+            android:id="@+id/driver_id_show_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add Task Details"
@@ -99,6 +100,7 @@
             android:ems="10"
             android:layout_marginBottom="20dp"
             android:hint="Enter Task Title"
+            android:inputType="text"
             />
 
 
@@ -109,12 +111,13 @@
 
         <EditText
             android:paddingVertical="16sp"
-            android:id="@+id/AddingDriverID"
+            android:id="@+id/AddingTaskDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:layout_marginBottom="20dp"
             android:hint="Enter Task Description"
+            android:inputType="text"
             />
 
         <TextView
@@ -124,12 +127,13 @@
 
         <EditText
             android:paddingVertical="16sp"
-            android:id="@+id/AddingDriverVehicle"
+            android:id="@+id/AddingTaskAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:layout_marginBottom="20dp"
             android:hint="Enter Task Address"
+            android:inputType="text"
             />
         <Button
             android:id="@+id/ConfirmTaskBTN"
