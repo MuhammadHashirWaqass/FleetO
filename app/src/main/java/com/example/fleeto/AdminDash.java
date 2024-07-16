@@ -103,8 +103,10 @@ public class AdminDash extends AppCompatActivity {
                         if (actionBar != null) {
                             actionBar.setTitle("Drivers");
                         }
-                        Intent intent = new Intent(AdminDash.this, AddingDriver.class);
-                        startActivity(intent);
+                        DriverManagementFragment fragment3 = new DriverManagementFragment();
+                        FragmentTransaction ft3 = getSupportFragmentManager().beginTransaction();
+                        ft3.replace(R.id.content, fragment3, "");
+                        ft3.commit();
                         return true;
                     }
                     if(item.getItemId() == R.id.nav_tasks) {
