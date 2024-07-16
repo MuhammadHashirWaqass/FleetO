@@ -9,7 +9,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class taskManagement extends AppCompatActivity {
-
+    //DO NOT WRITE CODE HERE. WRITE CODE IN TASKMANAGEMENTFRAGMENT
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

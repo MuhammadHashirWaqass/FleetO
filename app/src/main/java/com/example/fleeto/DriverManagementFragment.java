@@ -83,7 +83,7 @@ public class DriverManagementFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_driver_management, container, false);
         progressDialog = new ProgressDialog(this.getContext());
@@ -104,16 +104,11 @@ public class DriverManagementFragment extends Fragment {
             }
         });
 
-
         // Inflate the layout for this fragment
         return view;
     }
 
-
-
-
-
-    public void getDriversOfOwner (){
+    public void getDriversOfOwner() {
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
 
         // Create JSON object for the request body
@@ -124,7 +119,8 @@ public class DriverManagementFragment extends Fragment {
             e.printStackTrace();
         }
 
-        JsonObjectRequest jsonObjectRequest  = new JsonObjectRequest(Request.Method.POST, ApiPath.getInstance().getUrl() + "/api/driver/getDrivers", jsonBody,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
+                ApiPath.getInstance().getUrl() + "/api/driver/getDrivers", jsonBody,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -135,18 +131,16 @@ public class DriverManagementFragment extends Fragment {
                             throw new RuntimeException(e);
                         }
 
-
                     }
                 }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("api", "onError: " +  error);
-            }
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("api", "onError: " + error);
+                    }
 
-        }
+                }
 
-        )
-        {
+        ) {
 
             @Override
             public String getBodyContentType() {
@@ -154,23 +148,23 @@ public class DriverManagementFragment extends Fragment {
             }
         };
 
-
         // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
 
     }
 
-    void populateDriverTable(JSONArray listOfDrivers){
-        for (int i=0;i<listOfDrivers.length();i++){
+    void populateDriverTable(JSONArray listOfDrivers) {
+        for (int i = 0; i < listOfDrivers.length(); i++) {
             TableRow tableRow = new TableRow(this.getContext());
 
             try {
                 // creating and setting textView Values
-                TextView idTextView =  createTextView(listOfDrivers.getJSONObject(i).getString("driverId"));
+                TextView idTextView = createTextView(listOfDrivers.getJSONObject(i).getString("driverId"));
                 TextView nameTextView = createTextView(listOfDrivers.getJSONObject(i).getString("name"));
                 TextView passwordTextView = createTextView(listOfDrivers.getJSONObject(i).getString("password"));
                 TextView carTextView = createTextView(listOfDrivers.getJSONObject(i).getString("vehicle"));
-                Button addTaskToDriverButton = createAddDriverButton(listOfDrivers.getJSONObject(i).getString("driverId"));
+                Button addTaskToDriverButton = createAddDriverButton(
+                        listOfDrivers.getJSONObject(i).getString("driverId"));
 
                 tableRow.addView(idTextView);
                 tableRow.addView(nameTextView);
@@ -179,26 +173,25 @@ public class DriverManagementFragment extends Fragment {
                 tableRow.addView(addTaskToDriverButton);
 
                 int paddingVertical = (int) (10 * getResources().getDisplayMetrics().density);
-                tableRow.setPadding(0,paddingVertical,0,paddingVertical);
+                tableRow.setPadding(0, paddingVertical, 0, paddingVertical);
 
             } catch (JSONException e) {
-                Log.e("json", "HEHE:" +e.getMessage());
+                Log.e("json", "HEHE:" + e.getMessage());
             }
             tableLayout.addView(tableRow);
         }
 
     }
 
-    private Button createAddDriverButton (String contentDescription){
+    private Button createAddDriverButton(String contentDescription) {
         // Create the Button
         Button button = new Button(this.getContext());
         button.setText("+");
         button.setBackgroundResource(R.drawable.button_drawable); // Set background drawable
 
-            button.setLayoutParams(new TableRow.LayoutParams(
-                    (int) getResources().getDisplayMetrics().scaledDensity * 20,
-                    (int) getResources().getDisplayMetrics().scaledDensity * 20
-            )) ;
+        button.setLayoutParams(new TableRow.LayoutParams(
+                (int) getResources().getDisplayMetrics().scaledDensity * 20,
+                (int) getResources().getDisplayMetrics().scaledDensity * 20));
         button.setPadding(0, 0, 0, 0); // Set horizontal padding in dp
         button.setTextSize(16); // Set text size to 16sp
         button.setTypeface(button.getTypeface(), Typeface.BOLD); // Set text style to bold
@@ -224,8 +217,7 @@ public class DriverManagementFragment extends Fragment {
         // Set layout parameters
         TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
                 TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.WRAP_CONTENT
-        );
+                TableRow.LayoutParams.WRAP_CONTENT);
         textView.setLayoutParams(layoutParams);
 
         // Set padding
