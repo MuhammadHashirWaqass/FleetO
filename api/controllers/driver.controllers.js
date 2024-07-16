@@ -48,7 +48,9 @@ const addDriverToOwner = async (req, res) => {
         );
       }
     );
-  } catch (error) {}
+  } catch (error) {
+    return res.json({ message: error });
+  }
 };
 
 module.exports = { getDriversOfOwner, addDriverToOwner };
