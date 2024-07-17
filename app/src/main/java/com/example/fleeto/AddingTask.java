@@ -52,7 +52,7 @@ public class AddingTask extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Adding Task");
 
-        AddTaskDetailsTextView.setText("Add Task Details for Driver: " + DriverId.getInstance().getDriverId());
+        AddTaskDetailsTextView.setText("Add Task Details for Driver: " + Global.getInstance().getDriverId());
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +107,7 @@ public class AddingTask extends AppCompatActivity {
             jsonBody.put("title", title);
             jsonBody.put("description", description);
             jsonBody.put("address", address);
-            jsonBody.put("driverId", DriverId.getInstance().getDriverId());
+            jsonBody.put("driverId", Global.getInstance().getDriverId());
 
         } catch (JSONException e) {
             e.printStackTrace();

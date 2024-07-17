@@ -120,7 +120,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="18dp"
-                        android:text="@string/actions"
+                        android:text="Add Task"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 <!--                    <Button-->

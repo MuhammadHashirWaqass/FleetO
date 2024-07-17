@@ -12,17 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -92,9 +89,8 @@ public class DriverManagementFragment extends Fragment {
         listOfDrivers = new JSONArray();
         addDriverButton = view.findViewById(R.id.add_driver_btn);
 
-        progressDialog.show();
+
         getDriversOfOwner();
-        progressDialog.dismiss();
 
         addDriverButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +105,7 @@ public class DriverManagementFragment extends Fragment {
     }
 
     public void getDriversOfOwner() {
+        progressDialog.show();
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
 
         // Create JSON object for the request body
@@ -180,6 +177,8 @@ public class DriverManagementFragment extends Fragment {
             }
             tableLayout.addView(tableRow);
         }
+        progressDialog.dismiss();
+
 
     }
 
@@ -200,7 +199,7 @@ public class DriverManagementFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DriverId.getInstance().setDriverId(Integer.parseInt(contentDescription));
+                Global.getInstance().setDriverId(Integer.parseInt(contentDescription));
                 startActivity(new Intent(requireContext(), AddingTask.class));
             }
         });

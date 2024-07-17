@@ -1,14 +1,14 @@
 package com.example.fleeto;
 
-public class DriverId {
-    private static DriverId instance;
+public class Global {
+    private static Global instance;
     private int driverId;
 
-    private DriverId(){}
+    private Global(){}
 
-    public static DriverId getInstance() {
+    public static Global getInstance() {
         if (instance == null){
-            instance = new DriverId();
+            instance = new Global();
         }
         return instance;
     }
