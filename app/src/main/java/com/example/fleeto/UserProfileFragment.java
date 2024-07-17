@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuth;
  *
  */
 public class UserProfileFragment extends Fragment {
+
+    TextView ProfileName, ProfileEmail;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -69,6 +72,13 @@ public class UserProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
         mAuth = FirebaseAuth.getInstance();
+        ProfileEmail = view.findViewById(R.id.AdminProfileEmail);
+        ProfileName = view.findViewById(R.id.AdminProfileName);
+
+        ProfileEmail.setText(User.getUserInstance().getEmail());
+        ProfileName.setText(User.getUserInstance().getName());
+        ProfileEmail.setTextColor(getResources().getColor(android.R.color.black));
+        ProfileName.setTextColor(getResources().getColor(android.R.color.black));
 
         Button signOutButton = view.findViewById(R.id.SignOutBTNOwnerProfile);
         signOutButton.setOnClickListener(new View.OnClickListener() {
