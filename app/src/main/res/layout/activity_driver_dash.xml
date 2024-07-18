@@ -73,7 +73,7 @@
             android:background="@drawable/table_border">
 
             <LinearLayout
-                android:id="@+id/TasksList"
+                android:id="@+id/current_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
@@ -96,11 +96,12 @@
             android:background="@drawable/table_border">
 
             <LinearLayout
+                android:id="@+id/completed_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
         </ScrollView>
-        s
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
