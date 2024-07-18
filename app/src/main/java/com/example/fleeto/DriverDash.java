@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -39,14 +40,14 @@ import org.json.JSONObject;
 import java.util.IdentityHashMap;
 
 public class DriverDash extends AppCompatActivity {
-    LinearLayout currentTaskLinearLayout, completedTaskLinearLayout;
+    TableLayout currentTaskLayout, completedTaskLayout;
     Button SignOutButton;
     TextView IdHeadingTextView;
     ProgressDialog progressDialog;
     JSONArray listOfTasks;
-    LinearLayout parentLinearLayout ;
-    LinearLayout infoLinearLayout ;
-    LinearLayout buttonsLinearLayout;
+    LinearLayout newLinearLayout ;
+    int currentFlag = 0, completeFlag = 0;
+
 
 
     @Override
@@ -68,12 +69,12 @@ public class DriverDash extends AppCompatActivity {
 
         int userId = User.getUserInstance().getUserId();
         IdHeadingTextView = findViewById(R.id.driver_id_heading_label);
-        IdHeadingTextView.setText(String.valueOf(userId));
+        IdHeadingTextView.setText(String.valueOf("ID: "+userId));
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading Tasks...");
         SignOutButton = findViewById(R.id.driver_logout_button);
-        currentTaskLinearLayout = findViewById(R.id.current_linear_layout);
-        completedTaskLinearLayout = findViewById(R.id.completed_linear_layout);
+        currentTaskLayout = findViewById(R.id.current_tasks_layout);
+        completedTaskLayout = findViewById(R.id.completed_tasks_layout);
 
         SignOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +109,7 @@ public class DriverDash extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             listOfTasks = response.getJSONArray("data");
+
                             populateTaskTables(listOfTasks);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
@@ -137,72 +139,77 @@ public class DriverDash extends AppCompatActivity {
     }
 
     private void populateTaskTables(JSONArray listOfTasks){
+
         for (int i = 0; i < listOfTasks.length(); i++) {
 
-            try {
-                // Parent Linear Layout
-                parentLinearLayout = createParentLinearLayout(listOfTasks.getJSONObject(i).getString("status"));
-                infoLinearLayout = createInfoLinearLayout();
-                buttonsLinearLayout = createButtonsLinearLayout();
-
-
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-
 
 
             try {
+                newLinearLayout = createNewLinearLayout(listOfTasks.getJSONObject(i).getString("status"));
+
                 // creating and setting textView Values
                 TextView idTextView = createTextView("Task ID: "+listOfTasks.getJSONObject(i).getString("taskId"));
                 TextView titleTextView = createTextView("Title: "+listOfTasks.getJSONObject(i).getString("title"));
                 TextView descriptionTextView = createTextView("Description: "+listOfTasks.getJSONObject(i).getString("description"));
                 TextView addressTextView = createTextView("Address"+listOfTasks.getJSONObject(i).getString("address"));
-                TextView driverIdTextView = createTextView("Driver ID: "+listOfTasks.getJSONObject(i).getString("driverId"));
                 TextView statusTextView = createTextView("Status: "+ listOfTasks.getJSONObject(i).getString("status"));
+
+                // adding textviews to layout
+                newLinearLayout.addView(idTextView);
+                newLinearLayout.addView(titleTextView);
+                newLinearLayout.addView(descriptionTextView);
+                newLinearLayout.addView(addressTextView);
+                newLinearLayout.addView(statusTextView);
 
                 if (listOfTasks.getJSONObject(i).getString("status").equals("pending")){
                     // adding buttons to layout
                     Button markAsDoneButton = createMarkAsDoneButton(
                             listOfTasks.getJSONObject(i).getString("taskId"));
-                    buttonsLinearLayout.addView(markAsDoneButton);
+                    newLinearLayout.addView(markAsDoneButton);
                 }
-
-
-
-                // adding textviews to layout
-                infoLinearLayout.addView(idTextView);
-                infoLinearLayout.addView(titleTextView);
-                infoLinearLayout.addView(descriptionTextView);
-                infoLinearLayout.addView(addressTextView);
-                infoLinearLayout.addView(driverIdTextView);
-                infoLinearLayout.addView(statusTextView);
-
-                parentLinearLayout.addView(infoLinearLayout);
-                parentLinearLayout.addView(buttonsLinearLayout);
-
-
-
 
             } catch (JSONException e) {
                 Log.e("json", "HEHE:" + e.getMessage());
             }
+        }
+
+        if (currentFlag == 0){
+            TextView noItemTextView = new TextView(this);
+            noItemTextView.setText("No Current Tasks to display");
+            noItemTextView.setGravity(Gravity.CENTER);
+            noItemTextView.setTextSize(20);
+            noItemTextView.setTextAppearance(Typeface.BOLD);
+            noItemTextView.setTextColor(getResources().getColor(android.R.color.black));
+            noItemTextView.setPadding(0,10,0,0);
+            currentTaskLayout.addView(noItemTextView);
+        }
+
+        if (completeFlag == 0){
+            TextView noItemTextView = new TextView(this);
+            noItemTextView.setText("No Completed Tasks to display");
+            noItemTextView.setGravity(Gravity.CENTER);
+            noItemTextView.setTextSize(20);
+            noItemTextView.setTextAppearance(Typeface.BOLD);
+            noItemTextView.setTextColor(getResources().getColor(android.R.color.black));
+            noItemTextView.setPadding(0,30,0,30);
+            completedTaskLayout.addView(noItemTextView);
         }
         progressDialog.dismiss();
 
     }
 
     @SuppressLint("ResourceAsColor")
-    private LinearLayout createParentLinearLayout(String status){
+    private LinearLayout createNewLinearLayout(String status){
         LinearLayout linearLayout = new LinearLayout(this);
 
         if (status.equals("pending")){
-            currentTaskLinearLayout.addView(linearLayout);
+            currentFlag = 1;
+            currentTaskLayout.addView(linearLayout);
         }
         else{
-            completedTaskLinearLayout.addView(linearLayout);
+            completeFlag = 1;
+            completedTaskLayout.addView(linearLayout);
         }
-
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -210,10 +217,13 @@ public class DriverDash extends AppCompatActivity {
         );
 
 
-        int marginBottom = (int) TypedValue.applyDimension(
+        int marginHorizontal = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics()
+        );
+        int marginVertical = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics()
         );
-        layoutParams.setMargins(0, marginBottom, 0, marginBottom);
+        layoutParams.setMargins(marginHorizontal, marginVertical, marginHorizontal, marginVertical);
 
         linearLayout.setLayoutParams(layoutParams);
 
@@ -233,39 +243,8 @@ public class DriverDash extends AppCompatActivity {
 
     }
 
-    private LinearLayout createInfoLinearLayout(){
-        LinearLayout linearLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
 
-        linearLayout.setLayoutParams(layoutParams);
 
-        // Set orientation and gravity
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-
-        // Set padding
-        int padding = (int) (10 * getResources().getDisplayMetrics().density);
-        linearLayout.setPadding(0, padding, 0, padding);
-
-        return  linearLayout;
-    }
-
-    private LinearLayout createButtonsLinearLayout(){
-        LinearLayout linearLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-
-        linearLayout.setLayoutParams(layoutParams);
-
-        // Set orientation and gravity
-        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-
-        return  linearLayout;
-    }
 
     private TextView createTextView(String text) {
         TextView textView = new TextView(this);
@@ -273,9 +252,10 @@ public class DriverDash extends AppCompatActivity {
         // Set text
         textView.setText(text);
 
+
         // Set layout parameters
         TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
-                TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.WRAP_CONTENT,
                 TableRow.LayoutParams.WRAP_CONTENT);
         textView.setLayoutParams(layoutParams);
 
@@ -284,8 +264,9 @@ public class DriverDash extends AppCompatActivity {
         textView.setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
 
         // Set text size and style
-        textView.setTextSize(18);
+        textView.setTextSize(20);
         textView.setTypeface(null, Typeface.BOLD);
+        textView.setGravity(Gravity.CENTER);
 
         // Set text color to black
         textView.setTextColor(getResources().getColor(android.R.color.white));
@@ -303,10 +284,11 @@ public class DriverDash extends AppCompatActivity {
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        button.setPadding(0, 0, 0, 0); // Set horizontal padding in dp
-        button.setTextSize(16); // Set text size to 16sp
+
+
         button.setTypeface(button.getTypeface(), Typeface.BOLD); // Set text style to bold
         button.setContentDescription(taskId);
+        button.setGravity(Gravity.CENTER);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

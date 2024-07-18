@@ -170,7 +170,13 @@ public class OwnerLoginActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("api", "onError: " +  error);
+                if (error.networkResponse != null) {
+                    int statusCode = error.networkResponse.statusCode;
+                    String responseBody = new String(error.networkResponse.data);
+                    Log.e("api", "Status code: " + statusCode + " Response: " + responseBody);
+                } else {
+                    Log.e("api", "Error: " + error.toString());
+                }
             }
 
         }
