@@ -7,32 +7,44 @@
     android:layout_height="match_parent"
     tools:context=".DriverDash">
 
-
-    <TextView
-        android:id="@+id/gdaytxt"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/driver_top_linear_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text="Good Day,"
-        android:textSize="20sp"
-        android:textStyle="bold|italic"
+        android:layout_marginVertical="10dp"
+        android:paddingVertical="5sp"
+        android:paddingHorizontal="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.302"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-    <TextView
-        android:id="@+id/DriverIDdisp"
-        android:layout_width="121dp"
-        android:layout_height="27dp"
-        android:layout_marginTop="60dp"
-        android:hint="Driver_ID"
-        android:textColor="#F86F65"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.084"
-        app:layout_constraintStart_toEndOf="@id/gdaytxt"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/driver_id_heading_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ID: "
+            android:textSize="32dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/driver_logout_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#951E1E"
+            android:text="Sign Out"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+
+
+
+
 
     <LinearLayout
         android:layout_width="0dp"
@@ -41,7 +53,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gdaytxt">
+        app:layout_constraintTop_toBottomOf="@+id/driver_top_linear_layout">
 
         <TextView
             android:id="@+id/textView9"
@@ -88,14 +100,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
         </ScrollView>
-
-        <Button
-            android:id="@+id/SoutBTN"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:backgroundTint="#951E1E"
-            android:text="Sign Out" />
+        s
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
