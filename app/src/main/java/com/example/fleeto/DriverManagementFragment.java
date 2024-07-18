@@ -155,6 +155,18 @@ public class DriverManagementFragment extends Fragment {
     }
 
     void populateDriverTable(JSONArray listOfDrivers) {
+        if (listOfDrivers.length() == 0){
+            TextView noItemTextView = new TextView(requireContext());
+            noItemTextView.setText("No Drivers to display");
+            noItemTextView.setGravity(Gravity.CENTER);
+            noItemTextView.setTextSize(20);
+            noItemTextView.setTextAppearance(Typeface.BOLD);
+            noItemTextView.setTextColor(getResources().getColor(android.R.color.black));
+            noItemTextView.setPadding(0,10,0,0);
+            tableLayout.addView(noItemTextView);
+            progressDialog.dismiss();
+            return;
+        }
         for (int i = 0; i < listOfDrivers.length(); i++) {
             // Parent Linear Layout
             LinearLayout parentLinearLayout = createParentLinearLayout();

@@ -60,7 +60,7 @@ public class TaskManagementFragment extends Fragment {
 
     public void getTasksOfOwner() {
         progressDialog.show();
-        RequestQueue queue = Volley.newRequestQueue(this.getContext());
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
 
         // Create JSON object for the request body
         JSONObject jsonBody = new JSONObject();
@@ -105,6 +105,19 @@ public class TaskManagementFragment extends Fragment {
     }
 
     public void populateTaskTable(JSONArray listOfTasks){
+
+        if (listOfTasks.length() == 0){
+            TextView noItemTextView = new TextView(requireContext());
+            noItemTextView.setText("No Tasks to display");
+            noItemTextView.setGravity(Gravity.CENTER);
+            noItemTextView.setTextSize(20);
+            noItemTextView.setTextAppearance(Typeface.BOLD);
+            noItemTextView.setTextColor(getResources().getColor(android.R.color.black));
+            noItemTextView.setPadding(0,10,0,0);
+            tableLayout.addView(noItemTextView);
+            progressDialog.dismiss();
+            return;
+        }
         for (int i = 0; i < listOfTasks.length(); i++) {
 
             // Parent Linear Layout
