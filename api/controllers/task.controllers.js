@@ -5,8 +5,8 @@ const addTaskToDriver = async (req, res) => {
     const { title, description, address, driverId } = req.body;
 
     connection.query(
-      "INSERT INTO Task (title, description, status, address) VALUES (?,?,'pending',?)",
-      [title, description, address],
+      "INSERT INTO Task (title, description, status, address, driverId) VALUES (?,?,'pending',?, ?)",
+      [title, description, address, driverId],
       (err, result) => {
         if (err) {
           return res.json({

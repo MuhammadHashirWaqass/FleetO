@@ -53,4 +53,23 @@ const addDriverToOwner = async (req, res) => {
   }
 };
 
-module.exports = { getDriversOfOwner, addDriverToOwner };
+const deleteDriver = async (req, res) => {
+  try {
+    const { driverId } = req.body;
+
+    connection.query(
+      "DELETE FROM Driver WHERE driverId = ?",
+      [driverId],
+      (err, result) => {
+        if (err) {
+          return res.json({ message: "ERROR: " + err });
+        }
+        return res.json({ message: "Deleted Driver Successfully" });
+      }
+    );
+  } catch (error) {
+    return res.json({ message: error });
+  }
+};
+
+module.exports = { getDriversOfOwner, addDriverToOwner, deleteDriver };

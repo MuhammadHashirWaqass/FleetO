@@ -1,6 +1,7 @@
 package com.example.fleeto;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -19,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -329,7 +331,7 @@ public class DriverManagementFragment extends Fragment {
         return button;
     }
 
-    private Button createDeleteDriverButton (String taskId){
+    private Button createDeleteDriverButton (String driverId){
         // Create the Button
         Button button = new Button(this.getContext());
         button.setText("Delete");
@@ -342,16 +344,80 @@ public class DriverManagementFragment extends Fragment {
         button.setPadding(0, 0, 0, 0); // Set horizontal padding in dp
         button.setTextSize(16); // Set text size to 16sp
         button.setTypeface(button.getTypeface(), Typeface.BOLD); // Set text style to bold
-        button.setContentDescription(taskId);
+        button.setContentDescription(driverId);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               //
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setTitle("Delete Driver");
+                builder.setMessage("Are you sure?");
+                builder.setPositiveButton("Yes", (dialog, which) -> {
+                    // Handle the positive button click
+                    progressDialog.setMessage("Deleting Task");
+
+                    deleteDriver(Integer.parseInt(driverId));
+
+                });
+                builder.setNegativeButton("No", (dialog, which) -> {
+                    // Handle the negative button click
+
+                });
+
+                // Create and show the AlertDialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
         return button;
+    }
+
+    private void deleteDriver (int driverId){
+        progressDialog.setMessage("Deleting Driver...");
+        progressDialog.show();
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
+
+        // Create JSON object for the request body
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("driverId", driverId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
+                ApiPath.getInstance().getUrl() + "/api/driver/delete", jsonBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Toast.makeText(requireContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                            startActivity(new Intent(requireContext(), AdminDash.class));
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("api", "onError: " + error);
+            }
+
+        }
+
+        ) {
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=UTF-8";
+            }
+        };
+
+        // Add the request to the RequestQueue.
+        queue.add(jsonObjectRequest);
     }
 
     private TextView createTextView(String text) {
