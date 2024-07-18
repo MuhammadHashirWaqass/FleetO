@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.mapbox.android.core.permissions.PermissionsListener;
-
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.mapboxsdk.Mapbox;
@@ -26,6 +25,12 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
+import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -47,7 +52,6 @@ public class TrackingFragment extends Fragment implements
     private MapboxMap mapboxMap;
     private LocationComponent locationComponent;
     private boolean isInTrackingMode;
-
 
     public TrackingFragment() {
         // Required empty public constructor
@@ -93,6 +97,7 @@ public class TrackingFragment extends Fragment implements
                     @Override
                     public void onStyleLoaded(@NonNull Style style) {
                         enableLocationComponent(style);
+                        addMarkers(style);
                     }
                 });
     }
@@ -105,9 +110,8 @@ public class TrackingFragment extends Fragment implements
             // Create and customize the LocationComponent's options
             LocationComponentOptions customLocationComponentOptions = LocationComponentOptions.builder(getContext())
                     .elevation(5)
-                    .accuracyAlpha(.6f)
+                    .accuracyAlpha(.0f)
                     .accuracyColor(Color.RED)
-                    .foregroundDrawable(R.drawable.car)
                     .build();
 
             // Get an instance of the component
@@ -139,6 +143,48 @@ public class TrackingFragment extends Fragment implements
         } else {
             permissionsManager = new PermissionsManager(this);
             permissionsManager.requestLocationPermissions(getActivity());
+        }
+    }
+
+    private void addMarkers(@NonNull Style style) {
+        try {
+            // Define random locations
+            JSONArray features = new JSONArray();
+            double[][] locations = {
+                    {74.4194,31.7749},
+                    {74.2437,31.4522},
+                    {74.0060,31.7128},
+                    {74.3321,31.5062},
+                    {74.1278,31.5074}
+            };
+
+            for (double[] location : locations) {
+                JSONObject feature = new JSONObject();
+                feature.put("type", "Feature");
+                JSONObject geometry = new JSONObject();
+                geometry.put("type", "Point");
+                geometry.put("coordinates", new JSONArray(location));
+                feature.put("geometry", geometry);
+                features.put(feature);
+            }
+
+            JSONObject featureCollection = new JSONObject();
+            featureCollection.put("type", "FeatureCollection");
+            featureCollection.put("features", features);
+
+            // Add source to the map
+            GeoJsonSource geoJsonSource = new GeoJsonSource("marker-source", featureCollection.toString());
+            style.addSource(geoJsonSource);
+
+            // Add the SymbolLayer to the map
+            style.addLayer(new SymbolLayer("marker-layer", "marker-source")
+                    .withProperties(PropertyFactory.iconImage("marker-icon-id")));
+
+            // Add the marker icon image
+            style.addImage("marker-icon-id", getResources().getDrawable(R.drawable.car2));
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
