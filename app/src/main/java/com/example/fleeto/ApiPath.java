@@ -5,7 +5,7 @@ public class ApiPath {
     private String url;
 
     private ApiPath(){
-        this.url= "https://fleet-o-backend.vercel.app/";
+        this.url= "https://fleet-o-backend.vercel.app";
     };
 
     public static ApiPath getInstance() {
