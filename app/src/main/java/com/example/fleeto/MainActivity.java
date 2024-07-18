@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     EditText DriverId, DriverPassword;
     Button LoginButton;
     ProgressDialog progressDialog;
+    Button goToOwner;
 
 
     @Override
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         DriverId = findViewById(R.id.DriverEmail);
         DriverPassword = findViewById(R.id.DriverPassword);
         LoginButton = findViewById(R.id.ConfirmDriverLoginBTN);
+        goToOwner = findViewById(R.id.go_to_owner);
         progressDialog = new ProgressDialog(MainActivity.this);
         progressDialog.setMessage("Logging in...");
 
@@ -79,6 +81,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent temp = new Intent( MainActivity.this, OwnerLoginActivity.class);
+                overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
+                startActivity(temp);
+            }
+        });
+
+        goToOwner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent temp = new Intent( MainActivity.this, OwnerLoginActivity.class);
+                overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
                 startActivity(temp);
             }
         });

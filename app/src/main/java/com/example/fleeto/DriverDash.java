@@ -155,7 +155,7 @@ public class DriverDash extends AppCompatActivity {
                 TextView idTextView = createTextView("Task ID: "+listOfTasks.getJSONObject(i).getString("taskId"));
                 TextView titleTextView = createTextView("Title: "+listOfTasks.getJSONObject(i).getString("title"));
                 TextView descriptionTextView = createTextView("Description: "+listOfTasks.getJSONObject(i).getString("description"));
-                TextView addressTextView = createTextView("Address"+listOfTasks.getJSONObject(i).getString("address"));
+                TextView addressTextView = createTextView("Address: "+listOfTasks.getJSONObject(i).getString("address"));
                 TextView statusTextView = createTextView("Status: "+ listOfTasks.getJSONObject(i).getString("status"));
 
                 // adding textviews to layout
