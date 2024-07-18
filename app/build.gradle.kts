@@ -33,7 +33,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -41,9 +40,8 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.database)
-    implementation("com.mapbox.mapboxsdk:mapbox-android-sdk:6.0.1")
-    implementation("com.mapbox.mapboxsdk:mapbox-android-plugin-locationlayer:0.5.0")
-    implementation(libs.play.services.location)
+    implementation(libs.mapbox.android.sdk)
+    implementation(libs.mapbox.android.plugin.locationlayer)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
