@@ -59,4 +59,30 @@ const signUpOwner = async (req, res) => {
   );
 };
 
-module.exports = { signInOwner, signUpOwner };
+const signIndriver = async (req, res) => {
+  try {
+    const { driverId, password } = req.body;
+
+    connection.query(
+      "SELECT * FROM Driver WHERE driverId = ? AND password = ?",
+      [driverId, password],
+      (err, result) => {
+        if (err) {
+          return res.json({ message: err.message });
+        }
+        if (result.length !== 1) {
+          return res.json({ message: "Incorrect Credentials" });
+        }
+        return res.json({
+          message: "Logged In Successfully",
+          userId: result[0].driverId,
+          name: result[0].name,
+        });
+      }
+    );
+  } catch (error) {
+    return res.json(error);
+  }
+};
+
+module.exports = { signInOwner, signUpOwner, signIndriver };
