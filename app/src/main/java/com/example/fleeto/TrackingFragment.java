@@ -5,23 +5,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mapbox.maps.MapView;
-import com.mapbox.maps.Style;
-import com.mapbox.maps.plugin.annotation.AnnotationPlugin;
-import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager;
-import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions;
-import com.mapbox.maps.plugin.annotation.AnnotationConfig;
-import com.mapbox.geojson.Point;
-import com.mapbox.maps.plugin.annotation.AnnotationType;
-import com.mapbox.maps.CameraOptions;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.maps.MapView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,63 +54,45 @@ public class TrackingFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tracking, container, false);
-
-        // Initialize MapView
-        mapView = view.findViewById(R.id.mapView);
-        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS, style -> {
-            // Check if the AnnotationPlugin is available
-            AnnotationPlugin annotationApi = mapView.getPlugin("annotation");
-            if (annotationApi != null) {
-                // Add markers for each driver location
-                List<Point> driverLocations = getDriverLocations();
-                PointAnnotationManager pointAnnotationManager = (PointAnnotationManager) annotationApi.createAnnotationManager(AnnotationType.PointAnnotation, new AnnotationConfig());
-
-                for (Point location : driverLocations) {
-                    PointAnnotationOptions pointAnnotationOptions = new PointAnnotationOptions()
-                            .withPoint(location)
-                            .withTextField("Driver Location");
-                    pointAnnotationManager.create(pointAnnotationOptions);
-                    Log.d("TrackingFragment", "Added marker at: " + location.toString());
-                }
-
-                if (!driverLocations.isEmpty()) {
-                    mapView.getMapboxMap().setCamera(new CameraOptions.Builder()
-                            .center(driverLocations.get(0))
-                            .zoom(10.0)
-                            .build());
-                } else {
-                    Log.d("TrackingFragment", "No driver locations to display.");
-                }
-            } else {
-                // Handle the error appropriately (e.g., show a message or log an error)
-                // For example:
-                Log.e("TrackingFragment", "AnnotationPlugin not found.");
-            }
-        });
-
+        Mapbox.getInstance(view.getContext(), getString(R.string.mapbox_access_token));
+        mapView = (MapView) view.findViewById(R.id.mapView);
+        mapView.onCreate(savedInstanceState);
         return view;
     }
 
-
-    private List<Point> getDriverLocations() {
-        // Replace this with actual data retrieval logic
-        List<Point> locations = new ArrayList<>();
-        locations.add(Point.fromLngLat(151, -34));
-        locations.add(Point.fromLngLat(150, -35));
-        locations.add(Point.fromLngLat(149, -36));
-        return locations;
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        mapView.onResume();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart()
+    {
+        super.onStart();
         mapView.onStart();
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        mapView.onStop();
+    public void onSaveInstanceState(@NonNull Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onLowMemory()
+    {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        mapView.onDestroy();
     }
 
 }
