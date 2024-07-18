@@ -2,6 +2,7 @@ package com.example.fleeto;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -80,6 +82,8 @@ public class DriverDash extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // sign out here
+                startActivity(new Intent(DriverDash.this, MainActivity.class));
+                finish();
             }
         });
 
@@ -294,9 +298,79 @@ public class DriverDash extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Mark as done here
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(DriverDash.this);
+                builder.setTitle("Mark task as done");
+                builder.setMessage("Are you sure?");
+                builder.setPositiveButton("Yes", (dialog, which) -> {
+                    // Handle the positive button click
+
+                    markTaskAsDone(Integer.parseInt(taskId));
+
+                });
+                builder.setNegativeButton("No", (dialog, which) -> {
+                    // Handle the negative button click
+
+                });
+
+                // Create and show the AlertDialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+
             }
         });
 
         return button;
+    }
+
+    private void markTaskAsDone(int taskId){
+        progressDialog.setMessage("Updating task...");
+        progressDialog.show();
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        // Create JSON object for the request body
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("taskId", taskId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
+                ApiPath.getInstance().getUrl() + "/api/task/markTaskAsDone", jsonBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            progressDialog.dismiss();
+                            Toast.makeText(DriverDash.this, response.getString("message"),Toast.LENGTH_SHORT ).show();
+                            startActivity(new Intent(DriverDash.this, DriverDash.class));
+                            finish();
+
+
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("api", "onError: " + error);
+            }
+
+        }
+
+        ) {
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=UTF-8";
+            }
+        };
+
+        // Add the request to the RequestQueue.
+        queue.add(jsonObjectRequest);
     }
 }

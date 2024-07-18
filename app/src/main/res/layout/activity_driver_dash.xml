@@ -46,6 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#951E1E"
+                    android:textColor="@color/white"
                     android:text="Sign Out"
                     android:textSize="12sp" />
             </LinearLayout>
