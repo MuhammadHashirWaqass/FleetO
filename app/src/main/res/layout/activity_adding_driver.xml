@@ -140,21 +140,6 @@
                 android:inputType="number"
                 android:paddingVertical="16sp" />
 
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="ID" />-->
-
-<!--            <EditText-->
-<!--                android:id="@+id/AddingDriverID"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginBottom="20dp"-->
-<!--                android:ems="10"-->
-<!--                android:hint="Enter Driver ID"-->
-<!--                android:inputType="text"-->
-<!--                android:paddingVertical="16sp" />-->
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -197,6 +182,20 @@
                 android:layout_marginBottom="20dp"
                 android:ems="10"
                 android:hint="Enter Driver's Vehicle"
+                android:paddingVertical="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="License Number" />
+
+            <EditText
+                android:id="@+id/AddingDriverLicense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:ems="10"
+                android:hint="Enter Driver License Number"
                 android:paddingVertical="16sp" />
 
             <Button
