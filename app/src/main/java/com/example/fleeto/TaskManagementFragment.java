@@ -27,6 +27,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentController;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -108,7 +110,7 @@ public class TaskManagementFragment extends Fragment {
     }
 
     public void populateTaskTable(JSONArray listOfTasks){
-
+        tableLayout.removeAllViews();
         if (listOfTasks.length() == 0){
             TextView noItemTextView = new TextView(requireContext());
             noItemTextView.setText("No Tasks to display");
@@ -494,6 +496,9 @@ public class TaskManagementFragment extends Fragment {
                         try {
                             Toast.makeText(requireContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
+                            progressDialog.setMessage("Loading Tasks");
+                            getTasksOfOwner();
+
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
@@ -528,8 +533,6 @@ public class TaskManagementFragment extends Fragment {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-
-
     }
+
 }
