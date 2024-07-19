@@ -206,12 +206,16 @@ public class DriverManagementFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Dialog dialog = new Dialog(requireContext());
-                        dialog.setContentView(R.layout.customdialog_task);
+                        dialog.setContentView(R.layout.customdialog_driver);
                         dialog.show();
-                        TextView t1 = dialog.findViewById(R.id.PopupTaskTitle);
-                        TextView t2 = dialog.findViewById(R.id.PopupTaskDescription);
-                        TextView t3 = dialog.findViewById(R.id.PopupTaskAddress);
-                        Button b1 = dialog.findViewById(R.id.btn_ok);
+                        TextView t1 = dialog.findViewById(R.id.PopupDriverName);
+                        TextView t2 = dialog.findViewById(R.id.PopupDriverAge);
+                        TextView t3 = dialog.findViewById(R.id.PopupDriverPassword);
+                        TextView t4 = dialog.findViewById(R.id.PopupDriverVehicle);
+                        TextView t5 = dialog.findViewById(R.id.PopupDriverLicense);
+
+
+                        Button b1 = dialog.findViewById(R.id.btn_okd);
                         b1.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -221,6 +225,8 @@ public class DriverManagementFragment extends Fragment {
                         t1.setText("test");
                         t2.setText("test");
                         t3.setText("test");
+                        t4.setText("test");
+                        t5.setText("test");
                     }
                 });
 
