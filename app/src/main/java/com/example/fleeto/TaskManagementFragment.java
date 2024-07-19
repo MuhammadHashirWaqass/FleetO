@@ -287,7 +287,7 @@ public class TaskManagementFragment extends Fragment {
             public void onClick(View view) {
                 //Edit Task Activity here
                 Dialog dialog = new Dialog(requireContext());
-                dialog.setContentView(R.layout.customdialog_task);
+                dialog.setContentView(R.layout.customdialog_edittask);
                 dialog.show();
                 EditText t1 = dialog.findViewById(R.id.EditTaskTitle);
                 EditText t2 = dialog.findViewById(R.id.EditTaskDescription);
