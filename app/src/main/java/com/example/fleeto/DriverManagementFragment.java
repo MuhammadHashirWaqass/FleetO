@@ -184,17 +184,25 @@ public class DriverManagementFragment extends Fragment {
                 TextView idTextView = createTextView("Driver ID: " + listOfDrivers.getJSONObject(i).getString("driverId"));
                 TextView nameTextView = createTextView("Name: "+listOfDrivers.getJSONObject(i).getString("name"));
                 TextView passwordTextView = createTextView("Password: "+listOfDrivers.getJSONObject(i).getString("password"));
-                TextView carTextView = createTextView("Car: " + listOfDrivers.getJSONObject(i).getString("vehicle"));
+                TextView carTextView = createTextView("Vehicle: " + listOfDrivers.getJSONObject(i).getString("vehicle"));
 
                 Button addTaskToDriverButton = createAddTaskToDriverButton(
                         listOfDrivers.getJSONObject(i).getString("driverId"));
-                Button viewDriverDetailsButton = createViewDriverDetailsButton(listOfDrivers.getJSONObject(i).getString("driverId"));
+
+                String id = listOfDrivers.getJSONObject(i).getString("driverId");
+                String name = listOfDrivers.getJSONObject(i).getString("name");
+                String age = listOfDrivers.getJSONObject(i).getString("age");
+                String password=listOfDrivers.getJSONObject(i).getString("password");
+                String vehicle = listOfDrivers.getJSONObject(i).getString("vehicle");
+                String license = "License Number"; //TODO: add here
+
+                Button viewDriverDetailsButton = createViewDriverDetailsButton(id, name, age, password, vehicle, license);
                 Button deleteDriverButton = createDeleteDriverButton(listOfDrivers.getJSONObject(i).getString("driverId"));
 
                 // adding info
                 infoLinearLayout.addView(idTextView);
                 infoLinearLayout.addView(nameTextView);
-                infoLinearLayout.addView(passwordTextView);
+//                infoLinearLayout.addView(passwordTextView);
                 infoLinearLayout.addView(carTextView);
 
 //                adding buttons
@@ -202,33 +210,7 @@ public class DriverManagementFragment extends Fragment {
                 buttonsLinearLayout.addView(viewDriverDetailsButton);
                 buttonsLinearLayout.addView(deleteDriverButton);
 
-                viewDriverDetailsButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Dialog dialog = new Dialog(requireContext());
-                        dialog.setContentView(R.layout.customdialog_driver);
-                        dialog.show();
-                        TextView t1 = dialog.findViewById(R.id.PopupDriverName);
-                        TextView t2 = dialog.findViewById(R.id.PopupDriverAge);
-                        TextView t3 = dialog.findViewById(R.id.PopupDriverPassword);
-                        TextView t4 = dialog.findViewById(R.id.PopupDriverVehicle);
-                        TextView t5 = dialog.findViewById(R.id.PopupDriverLicense);
 
-
-                        Button b1 = dialog.findViewById(R.id.btn_okd);
-                        b1.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
-                        });
-                        t1.setText("test");
-                        t2.setText("test");
-                        t3.setText("test");
-                        t4.setText("test");
-                        t5.setText("test");
-                    }
-                });
 
             } catch (JSONException e) {
                 Log.e("json", "HEHE:" + e.getMessage());
@@ -335,7 +317,7 @@ public class DriverManagementFragment extends Fragment {
         return button;
     }
 
-    private Button createViewDriverDetailsButton(String driverId){
+    private Button createViewDriverDetailsButton(String driverId, String name, String age, String password, String vehicle, String license){
         // Create the Button
         Button button = new Button(this.getContext());
         button.setText("Details");
@@ -353,7 +335,28 @@ public class DriverManagementFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //
+                Dialog dialog = new Dialog(requireContext());
+                dialog.setContentView(R.layout.customdialog_driver);
+                dialog.show();
+                TextView t1 = dialog.findViewById(R.id.PopupDriverName);
+                TextView t2 = dialog.findViewById(R.id.PopupDriverAge);
+                TextView t3 = dialog.findViewById(R.id.PopupDriverPassword);
+                TextView t4 = dialog.findViewById(R.id.PopupDriverVehicle);
+                TextView t5 = dialog.findViewById(R.id.PopupDriverLicense);
+
+
+                Button b1 = dialog.findViewById(R.id.btn_okd);
+                b1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                t1.setText(name);
+                t2.setText(age);
+                t3.setText(password);
+                t4.setText(vehicle);
+                t5.setText(license);
             }
         });
 

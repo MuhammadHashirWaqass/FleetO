@@ -133,9 +133,16 @@ public class TaskManagementFragment extends Fragment {
                 TextView idTextView = createTextView("Task ID: "+listOfTasks.getJSONObject(i).getString("taskId"));
                 TextView titleTextView = createTextView("Title: "+listOfTasks.getJSONObject(i).getString("title"));
                 TextView descriptionTextView = createTextView("Description: "+listOfTasks.getJSONObject(i).getString("description"));
-                TextView addressTextView = createTextView("Address"+listOfTasks.getJSONObject(i).getString("address"));
+                TextView addressTextView = createTextView("Address: "+listOfTasks.getJSONObject(i).getString("address"));
                 TextView driverIdTextView = createTextView("Driver ID: "+listOfTasks.getJSONObject(i).getString("driverId"));
                 TextView statusTextView = createTextView("Status: "+ listOfTasks.getJSONObject(i).getString("status"));
+
+                String id = listOfTasks.getJSONObject(i).getString("taskId");
+                String title = listOfTasks.getJSONObject(i).getString("title");
+                String description =listOfTasks.getJSONObject(i).getString("description");
+                String address = listOfTasks.getJSONObject(i).getString("address");
+                String driverId = listOfTasks.getJSONObject(i).getString("driverId");
+                String status = listOfTasks.getJSONObject(i).getString("status");
 
                 Button editTaskButton = createEditTaskButton(
                         listOfTasks.getJSONObject(i).getString("taskId"));
@@ -143,14 +150,13 @@ public class TaskManagementFragment extends Fragment {
                 Button deleteTaskButton = createDeleteTaskButton(
                         listOfTasks.getJSONObject(i).getString("taskId"));
 
-                Button viewTaskDetailsButton = createViewTaskDetailsButton(listOfTasks.getJSONObject(i).getString("taskId"));
-
+                Button viewTaskDetailsButton = createViewTaskDetailsButton(id, title, description, address, driverId, status);
 
                 // adding textviews to layout
-                infoLinearLayout.addView(idTextView);
+//                infoLinearLayout.addView(idTextView);
                 infoLinearLayout.addView(titleTextView);
-                infoLinearLayout.addView(descriptionTextView);
-                infoLinearLayout.addView(addressTextView);
+//                infoLinearLayout.addView(descriptionTextView);
+//                infoLinearLayout.addView(addressTextView);
                 infoLinearLayout.addView(driverIdTextView);
                 infoLinearLayout.addView(statusTextView);
 
@@ -158,9 +164,6 @@ public class TaskManagementFragment extends Fragment {
                 buttonsLinearLayout.addView(editTaskButton);
                 buttonsLinearLayout.addView(viewTaskDetailsButton);
                 buttonsLinearLayout.addView(deleteTaskButton);
-
-
-
 
             } catch (JSONException e) {
                 Log.e("json", "HEHE:" + e.getMessage());
@@ -283,29 +286,27 @@ public class TaskManagementFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //Edit Task Activity here
-
-                        Dialog dialog = new Dialog(requireContext());
-                        dialog.setContentView(R.layout.customdialog_edittask);
-                        dialog.show();
-                        EditText t1 = dialog.findViewById(R.id.EditTaskTitle);
-                        EditText t2 = dialog.findViewById(R.id.EditTaskDescription);
-                        EditText t3 = dialog.findViewById(R.id.EditTaskAddress);
-                        Button b1 = dialog.findViewById(R.id.btn_yes);
-                        Button b2 = dialog.findViewById(R.id.btn_no);
-                        b2.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
+                Dialog dialog = new Dialog(requireContext());
+                dialog.setContentView(R.layout.customdialog_task);
+                dialog.show();
+                EditText t1 = dialog.findViewById(R.id.EditTaskTitle);
+                EditText t2 = dialog.findViewById(R.id.EditTaskDescription);
+                EditText t3 = dialog.findViewById(R.id.EditTaskAddress);
+                Button b1 = dialog.findViewById(R.id.btn_yes);
+                Button b2 = dialog.findViewById(R.id.btn_no);
+                b2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
                 });
-
             }
         });
 
         return button;
     }
 
-    private Button createViewTaskDetailsButton(String taskId){
+    private Button createViewTaskDetailsButton(String id, String title, String description,String address, String driverId,String status){
         // Create the Button
         Button button = new Button(this.getContext());
         button.setText("Details");
@@ -318,27 +319,27 @@ public class TaskManagementFragment extends Fragment {
         button.setPadding(0, 0, 0, 0); // Set horizontal padding in dp
         button.setTextSize(16); // Set text size to 16sp
         button.setTypeface(button.getTypeface(), Typeface.BOLD); // Set text style to bold
-        button.setContentDescription(taskId);
+        button.setContentDescription(id);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                        Dialog dialog = new Dialog(requireContext());
-                        dialog.setContentView(R.layout.customdialog_task);
-                        dialog.show();
-                        TextView t1 = dialog.findViewById(R.id.PopupTaskTitle);
-                        TextView t2 = dialog.findViewById(R.id.PopupTaskDescription);
-                        TextView t3 = dialog.findViewById(R.id.PopupTaskAddress);
-                        Button b1 = dialog.findViewById(R.id.btn_ok);
-                        b1.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
-                        });
-                        t1.setText("test");
-                        t2.setText("test");
-                        t3.setText("test");
+                Dialog dialog = new Dialog(requireContext());
+                dialog.setContentView(R.layout.customdialog_task);
+                dialog.show();
+                TextView t1 = dialog.findViewById(R.id.PopupTaskTitle);
+                TextView t2 = dialog.findViewById(R.id.PopupTaskDescription);
+                TextView t3 = dialog.findViewById(R.id.PopupTaskAddress);
+                Button b1 = dialog.findViewById(R.id.btn_ok);
+                b1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                t1.setText(title);
+                t2.setText(description);
+                t3.setText(address);
             }
         });
 
