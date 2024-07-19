@@ -196,7 +196,6 @@
                 android:layout_marginBottom="20dp"
                 android:ems="10"
                 android:hint="Enter Driver License Number"
-                android:inputType="number"
                 android:paddingVertical="16sp" />
 
             <Button

@@ -194,7 +194,7 @@ public class DriverManagementFragment extends Fragment {
                 String age = listOfDrivers.getJSONObject(i).getString("age");
                 String password=listOfDrivers.getJSONObject(i).getString("password");
                 String vehicle = listOfDrivers.getJSONObject(i).getString("vehicle");
-                String license = "License Number"; //TODO: add here
+                String license = listOfDrivers.getJSONObject(i).getString("licenseNumber");; //TODO: add here
 
                 Button viewDriverDetailsButton = createViewDriverDetailsButton(id, name, age, password, vehicle, license);
                 Button deleteDriverButton = createDeleteDriverButton(listOfDrivers.getJSONObject(i).getString("driverId"));

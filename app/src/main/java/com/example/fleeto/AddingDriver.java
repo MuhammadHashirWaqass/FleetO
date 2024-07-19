@@ -34,7 +34,7 @@ import org.json.JSONObject;
 
 public class AddingDriver extends AppCompatActivity {
 
-    EditText DriverN, DriverA,DriverVehicle,DriverPass, DriverConfirmPassword;
+    EditText DriverN, DriverA,DriverVehicle,DriverPass, DriverConfirmPassword, DriverLicenseNumber;
     Button AddDbtn, back;
     ProgressDialog progressDialog;
 
@@ -49,6 +49,7 @@ public class AddingDriver extends AppCompatActivity {
         DriverVehicle= findViewById(R.id.AddingDriverVehicle);
         DriverPass = findViewById(R.id.AddingDriverPassword);
         DriverConfirmPassword = findViewById(R.id.AddingDriverConfirmPassword);
+        DriverLicenseNumber = findViewById(R.id.AddingDriverLicense)
         AddDbtn = findViewById(R.id.ConfirmDriverBTN);
         back = findViewById(R.id.BackFromAddingDBTN);
 
@@ -68,11 +69,12 @@ public class AddingDriver extends AppCompatActivity {
             String driverPassword = DriverPass.getText().toString().trim();
             String driverConfirmPassword = DriverConfirmPassword.getText().toString().trim();
             String driverVehicle = DriverVehicle.getText().toString().trim();
+            String driverLicense = DriverLicenseNumber.getText().toString().trim();
 
              // Handle error validations
 
             // Handling empty Fields
-           if (setErrorOnEmptyField(DriverN) || setErrorOnEmptyField(DriverA)  || setErrorOnEmptyField(DriverPass) || setErrorOnEmptyField(DriverConfirmPassword) || setErrorOnEmptyField(DriverVehicle)){
+           if (setErrorOnEmptyField(DriverN) || setErrorOnEmptyField(DriverA)  || setErrorOnEmptyField(DriverPass) || setErrorOnEmptyField(DriverConfirmPassword) || setErrorOnEmptyField(DriverVehicle) || setErrorOnEmptyField(DriverLicenseNumber)){
                return;
            }
 
@@ -84,6 +86,12 @@ public class AddingDriver extends AppCompatActivity {
                 return;
             }
 
+            if (driverLicense.length() != 9){
+                DriverLicenseNumber.setError("License Number must be 9 digits without dashes");
+                DriverLicenseNumber.setFocusable(true);
+                return;
+            }
+
             // Passwords do not match
             if (!driverPassword.equals(driverConfirmPassword) ){
                 DriverConfirmPassword.setError("Passwords do not match");
@@ -92,7 +100,7 @@ public class AddingDriver extends AppCompatActivity {
             }
 
             // add the driver here
-            addDriverToOwner(driverName, Integer.parseInt(driverAge), driverPassword, driverVehicle);
+            addDriverToOwner(driverName, Integer.parseInt(driverAge), driverPassword, driverVehicle, driverLicense);
             }
         });
 
@@ -116,7 +124,7 @@ public class AddingDriver extends AppCompatActivity {
         return false;
     }
 
-    public void addDriverToOwner(String name, int age, String password, String vehicle){
+    public void addDriverToOwner(String name, int age, String password, String vehicle, String licenseNumber){
         progressDialog.show();
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -128,6 +136,7 @@ public class AddingDriver extends AppCompatActivity {
             jsonBody.put("password", password);
             jsonBody.put("vehicle", vehicle);
             jsonBody.put("ownerId", User.getUserInstance().getUserId());
+            jsonBody.put("licenseNumber", licenseNumber);
 
 
         } catch (JSONException e) {

@@ -34,7 +34,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.mapbox.common.Task;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -138,14 +137,15 @@ public class TaskManagementFragment extends Fragment {
                 TextView descriptionTextView = createTextView("Description: "+listOfTasks.getJSONObject(i).getString("description"));
                 TextView addressTextView = createTextView("Address: "+listOfTasks.getJSONObject(i).getString("address"));
                 TextView driverIdTextView = createTextView("Driver ID: "+listOfTasks.getJSONObject(i).getString("driverId"));
-                TextView statusTextView = createTextView("Status: "+ listOfTasks.getJSONObject(i).getString("status"));
+                String status = listOfTasks.getJSONObject(i).getString("status");
+                status = status.substring(0, 1).toUpperCase() + status.substring(1);
+                TextView statusTextView = createTextView("Status: "+ status);
 
                 String id = listOfTasks.getJSONObject(i).getString("taskId");
                 String title = listOfTasks.getJSONObject(i).getString("title");
                 String description =listOfTasks.getJSONObject(i).getString("description");
                 String address = listOfTasks.getJSONObject(i).getString("address");
                 String driverId = listOfTasks.getJSONObject(i).getString("driverId");
-                String status = listOfTasks.getJSONObject(i).getString("status");
 
                 Button editTaskButton = createEditTaskButton(
                         listOfTasks.getJSONObject(i).getString("taskId"), listOfTasks.getJSONObject(i).getString("title"), listOfTasks.getJSONObject(i).getString("description"), listOfTasks.getJSONObject(i).getString("address"));
@@ -299,7 +299,7 @@ public class TaskManagementFragment extends Fragment {
                 Button b1 = dialog.findViewById(R.id.btn_yes);
                 Button b2 = dialog.findViewById(R.id.btn_no);
 
-                TaskId.setText(taskId);
+                TaskId.setText("Task ID: "+taskId);
                 t1.setText(title);
                 t2.setText(description);
                 t3.setText(address);
@@ -319,6 +319,7 @@ public class TaskManagementFragment extends Fragment {
                         String newAddress = t3.getText().toString().trim();
 
                         if (title.equals(newTitle) && description.equals(newDescription) && address.equals(newAddress)){
+                            dialog.dismiss();
                             return;
                         }
 
