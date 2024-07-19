@@ -21,11 +21,11 @@ const getDriversOfOwner = async (req, res) => {
 
 const addDriverToOwner = async (req, res) => {
   try {
-    const { name, age, password, vehicle, ownerId } = req.body;
+    const { name, age, password, vehicle, ownerId, licenseNumber } = req.body;
 
     connection.query(
-      "INSERT INTO Driver(name, password, age, vehicle) VALUES (?,?,?,?)",
-      [name, password, age, vehicle],
+      "INSERT INTO Driver(name, password, age, vehicle, licenseNumber) VALUES (?,?,?,?,?)",
+      [name, password, age, vehicle, licenseNumber],
       (err, result) => {
         if (err) {
           return res.json({
