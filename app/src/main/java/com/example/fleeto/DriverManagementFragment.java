@@ -338,11 +338,12 @@ public class DriverManagementFragment extends Fragment {
                 Dialog dialog = new Dialog(requireContext());
                 dialog.setContentView(R.layout.customdialog_driver);
                 dialog.show();
+                TextView DriverId = dialog.findViewById(R.id.PopupDriverId);
                 TextView t1 = dialog.findViewById(R.id.PopupDriverName);
                 TextView t2 = dialog.findViewById(R.id.PopupDriverAge);
                 TextView t3 = dialog.findViewById(R.id.PopupDriverPassword);
                 TextView t4 = dialog.findViewById(R.id.PopupDriverVehicle);
-                TextView t5 = dialog.findViewById(R.id.PopupDriverLicense);
+                TextView t5 = dialog.findViewById(R.id.PopupDriverLicenseNumber);
 
 
                 Button b1 = dialog.findViewById(R.id.btn_okd);
@@ -352,6 +353,7 @@ public class DriverManagementFragment extends Fragment {
                         dialog.dismiss();
                     }
                 });
+                DriverId.setText(driverId);
                 t1.setText(name);
                 t2.setText(age);
                 t3.setText(password);

@@ -117,10 +117,30 @@ const markTaskAsDone = async (req, res) => {
     return res.json({ message: error });
   }
 };
+
+const updateTask = async (req, res) => {
+  try {
+    const { taskId, title, description, address } = req.body;
+
+    connection.query(
+      "UPDATE Task SET title = ?, description = ?, address = ? WHERE taskId = ?",
+      [title, description, address, taskId],
+      (err, result) => {
+        if (err) {
+          return res.json({ message: "ERROR: " + err });
+        }
+        return res.json({ message: "Edited Task Successfully" });
+      }
+    );
+  } catch (error) {
+    return res.json({ message: error });
+  }
+};
 module.exports = {
   addTaskToDriver,
   getOwnerTasks,
   deleteTask,
   getDriverTasks,
   markTaskAsDone,
+  updateTask,
 };

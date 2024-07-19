@@ -19,27 +19,42 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginVertical="20dp"
                 android:text="Details of Drivers"
                 android:textColor="@color/black"
-                android:textSize="24sp"
-                android:background="?attr/colorPrimary"/>
+                android:textSize="24sp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:text="ID" />
+
+            <TextView
+                android:id="@+id/PopupDriverId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:ems="10"
+                android:hint="No Driver Name"
+                android:inputType="text"
+                android:textSize="18sp"
+                android:paddingVertical="8sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Name" />
 
             <TextView
                 android:id="@+id/PopupDriverName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 android:ems="10"
                 android:hint="No Driver Name"
                 android:inputType="text"
-                android:paddingVertical="16sp" />
+                android:textSize="18sp"
+                android:paddingVertical="8sp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -50,11 +65,12 @@
                 android:id="@+id/PopupDriverAge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 android:ems="10"
-                android:hint="No Driver Age"
-                android:inputType="number"
-                android:paddingVertical="16sp" />
+                android:hint="No Driver Name"
+                android:inputType="text"
+                android:textSize="18sp"
+                android:paddingVertical="8sp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -65,10 +81,12 @@
                 android:id="@+id/PopupDriverPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 android:ems="10"
-                android:hint="No Driver password"
-                android:paddingVertical="16sp" />
+                android:hint="No Driver Name"
+                android:inputType="text"
+                android:textSize="18sp"
+                android:paddingVertical="8sp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -79,25 +97,28 @@
                 android:id="@+id/PopupDriverVehicle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 android:ems="10"
-                android:hint="No Driver's Vehicle"
-                android:paddingVertical="16sp" />
+                android:hint="No Driver Name"
+                android:inputType="text"
+                android:textSize="18sp"
+                android:paddingVertical="8sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="License Number" />
+                android:text="License No." />
 
             <TextView
-                android:id="@+id/PopupDriverLicense"
+                android:id="@+id/PopupDriverLicenseNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 android:ems="10"
-                android:hint="No Driver License Number"
-                android:inputType="number"
-                android:paddingVertical="16sp" />
+                android:hint="No Driver Name"
+                android:inputType="text"
+                android:textSize="18sp"
+                android:paddingVertical="8sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
