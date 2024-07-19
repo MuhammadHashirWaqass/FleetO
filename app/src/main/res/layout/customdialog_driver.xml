@@ -68,7 +68,6 @@
                 android:layout_marginBottom="20dp"
                 android:ems="10"
                 android:hint="No Driver password"
-                android:inputType="textPassword"
                 android:paddingVertical="16sp" />
 
             <TextView
