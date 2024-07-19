@@ -145,48 +145,7 @@ public class TaskManagementFragment extends Fragment {
 
                 Button viewTaskDetailsButton = createViewTaskDetailsButton(listOfTasks.getJSONObject(i).getString("taskId"));
 
-                editTaskButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Dialog dialog = new Dialog(requireContext());
-                        dialog.setContentView(R.layout.customdialog_task);
-                        dialog.show();
-                        EditText t1 = dialog.findViewById(R.id.EditTaskTitle);
-                        EditText t2 = dialog.findViewById(R.id.EditTaskDescription);
-                        EditText t3 = dialog.findViewById(R.id.EditTaskAddress);
-                        Button b1 = dialog.findViewById(R.id.btn_yes);
-                        Button b2 = dialog.findViewById(R.id.btn_no);
-                        b2.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
-                        });
 
-                    }
-                });
-
-                viewTaskDetailsButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Dialog dialog = new Dialog(requireContext());
-                        dialog.setContentView(R.layout.customdialog_task);
-                        dialog.show();
-                        TextView t1 = dialog.findViewById(R.id.PopupTaskTitle);
-                        TextView t2 = dialog.findViewById(R.id.PopupTaskDescription);
-                        TextView t3 = dialog.findViewById(R.id.PopupTaskAddress);
-                        Button b1 = dialog.findViewById(R.id.btn_ok);
-                        b1.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
-                        });
-                        t1.setText("test");
-                        t2.setText("test");
-                        t3.setText("test");
-                    }
-                });
                 // adding textviews to layout
                 infoLinearLayout.addView(idTextView);
                 infoLinearLayout.addView(titleTextView);
@@ -199,6 +158,9 @@ public class TaskManagementFragment extends Fragment {
                 buttonsLinearLayout.addView(editTaskButton);
                 buttonsLinearLayout.addView(viewTaskDetailsButton);
                 buttonsLinearLayout.addView(deleteTaskButton);
+
+
+
 
             } catch (JSONException e) {
                 Log.e("json", "HEHE:" + e.getMessage());
@@ -321,6 +283,22 @@ public class TaskManagementFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //Edit Task Activity here
+
+                        Dialog dialog = new Dialog(requireContext());
+                        dialog.setContentView(R.layout.customdialog_edittask);
+                        dialog.show();
+                        EditText t1 = dialog.findViewById(R.id.EditTaskTitle);
+                        EditText t2 = dialog.findViewById(R.id.EditTaskDescription);
+                        EditText t3 = dialog.findViewById(R.id.EditTaskAddress);
+                        Button b1 = dialog.findViewById(R.id.btn_yes);
+                        Button b2 = dialog.findViewById(R.id.btn_no);
+                        b2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                });
+
             }
         });
 
@@ -345,7 +323,22 @@ public class TaskManagementFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //
+                        Dialog dialog = new Dialog(requireContext());
+                        dialog.setContentView(R.layout.customdialog_task);
+                        dialog.show();
+                        TextView t1 = dialog.findViewById(R.id.PopupTaskTitle);
+                        TextView t2 = dialog.findViewById(R.id.PopupTaskDescription);
+                        TextView t3 = dialog.findViewById(R.id.PopupTaskAddress);
+                        Button b1 = dialog.findViewById(R.id.btn_ok);
+                        b1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        t1.setText("test");
+                        t2.setText("test");
+                        t3.setText("test");
             }
         });
 
