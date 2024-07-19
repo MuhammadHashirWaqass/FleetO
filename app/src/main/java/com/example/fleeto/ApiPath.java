@@ -5,7 +5,8 @@ public class ApiPath {
     private String url;
 
     private ApiPath(){
-        this.url= "https://fleet-o-backend.vercel.app";
+//        this.url= "https://fleet-o-backend.vercel.app";
+        this.url = "http://192.168.1.14:3000";
     };
 
     public static ApiPath getInstance() {

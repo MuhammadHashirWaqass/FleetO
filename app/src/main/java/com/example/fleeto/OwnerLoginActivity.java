@@ -45,11 +45,12 @@ import java.util.Map;
 public class OwnerLoginActivity extends AppCompatActivity {
     String url;
     private FirebaseAuth mAuth;
-    Button back;
+    Button back, goToDriver;
     Button LoginConfirm;
     EditText Email, Password;
     ProgressDialog progressDialog;
     TextView Register;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +64,7 @@ public class OwnerLoginActivity extends AppCompatActivity {
         url = ApiPath.getInstance().getUrl();
         mAuth = FirebaseAuth.getInstance();
         back = findViewById(R.id.BackFromLoginBTN);
+        goToDriver = findViewById(R.id.go_to_driver);
 
 
         // Input fields
@@ -83,6 +85,8 @@ public class OwnerLoginActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(OwnerLoginActivity.this, MainActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
             }
         });
@@ -92,6 +96,15 @@ public class OwnerLoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(OwnerLoginActivity.this, OwnerRegisterActivity.class));
+                finish();
+            }
+        });
+
+        goToDriver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(OwnerLoginActivity.this, MainActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
             }
         });
@@ -170,7 +183,13 @@ public class OwnerLoginActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("api", "onError: " +  error);
+                if (error.networkResponse != null) {
+                    int statusCode = error.networkResponse.statusCode;
+                    String responseBody = new String(error.networkResponse.data);
+                    Log.e("api", "Status code: " + statusCode + " Response: " + responseBody);
+                } else {
+                    Log.e("api", "Error: " + error.toString());
+                }
             }
 
         }

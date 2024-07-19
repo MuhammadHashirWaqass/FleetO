@@ -43,7 +43,7 @@
         android:id="@+id/BackFromLoginBTN"
         android:layout_width="40sp"
         android:layout_height="40sp"
-        android:background="@drawable/home_icon"
+        android:background="@drawable/back_arrow"
         android:contentDescription="Back from login screen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,6 +61,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20sp"
+            android:paddingHorizontal="4sp"
+            android:paddingVertical="2sp"
+            android:orientation="horizontal"
+            android:background="@drawable/black_background_rounded">
+            <Button
+                android:id="@+id/go_to_driver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Driver"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/black"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Owner"/>
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"

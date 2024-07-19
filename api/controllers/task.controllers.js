@@ -5,8 +5,8 @@ const addTaskToDriver = async (req, res) => {
     const { title, description, address, driverId } = req.body;
 
     connection.query(
-      "INSERT INTO Task (title, description, status, address) VALUES (?,?,'pending',?)",
-      [title, description, address],
+      "INSERT INTO Task (title, description, status, address, driverId) VALUES (?,?,'pending',?, ?)",
+      [title, description, address, driverId],
       (err, result) => {
         if (err) {
           return res.json({
@@ -79,4 +79,48 @@ const deleteTask = async (req, res) => {
     return res.json({ message: error });
   }
 };
-module.exports = { addTaskToDriver, getOwnerTasks, deleteTask };
+
+const getDriverTasks = async (req, res) => {
+  try {
+    const { driverId } = req.body;
+
+    connection.query(
+      "SELECT Task.taskId, Task.title, Task.description, Task.status, Task.address FROM DriverTasks JOIN Task ON Task.taskId = DriverTasks.taskId WHERE DriverTasks.driverId = ?",
+      [driverId],
+      (err, result) => {
+        if (err) {
+          return res.json({ message: "ERROR: " + err });
+        }
+        return res.json({ message: "Loaded Tasks Successfully", data: result });
+      }
+    );
+  } catch (error) {
+    return res.json({ message: error });
+  }
+};
+
+const markTaskAsDone = async (req, res) => {
+  try {
+    const { taskId } = req.body;
+
+    connection.query(
+      "UPDATE Task SET status = 'completed' WHERE taskId = ?",
+      [taskId],
+      (err, result) => {
+        if (err) {
+          return res.json({ message: "ERROR: " + err });
+        }
+        return res.json({ message: "Updated Task Successfully" });
+      }
+    );
+  } catch (error) {
+    return res.json({ message: error });
+  }
+};
+module.exports = {
+  addTaskToDriver,
+  getOwnerTasks,
+  deleteTask,
+  getDriverTasks,
+  markTaskAsDone,
+};

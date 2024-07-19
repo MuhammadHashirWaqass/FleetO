@@ -1,15 +1,19 @@
 package com.example.fleeto;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -56,7 +60,7 @@ public class TaskManagementFragment extends Fragment {
 
     public void getTasksOfOwner() {
         progressDialog.show();
-        RequestQueue queue = Volley.newRequestQueue(this.getContext());
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
 
         // Create JSON object for the request body
         JSONObject jsonBody = new JSONObject();
@@ -101,17 +105,36 @@ public class TaskManagementFragment extends Fragment {
     }
 
     public void populateTaskTable(JSONArray listOfTasks){
+
+        if (listOfTasks.length() == 0){
+            TextView noItemTextView = new TextView(requireContext());
+            noItemTextView.setText("No Tasks to display");
+            noItemTextView.setGravity(Gravity.CENTER);
+            noItemTextView.setTextSize(20);
+            noItemTextView.setTextAppearance(Typeface.BOLD);
+            noItemTextView.setTextColor(getResources().getColor(android.R.color.black));
+            noItemTextView.setPadding(0,10,0,0);
+            tableLayout.addView(noItemTextView);
+            progressDialog.dismiss();
+            return;
+        }
         for (int i = 0; i < listOfTasks.length(); i++) {
-            TableRow tableRow = new TableRow(this.getContext());
+
+            // Parent Linear Layout
+            LinearLayout parentLinearLayout = createParentLinearLayout();
+            LinearLayout infoLinearLayout = createInfoLinearLayout();
+            LinearLayout buttonsLinearLayout = createButtonsLinearLayout();
+            parentLinearLayout.addView(infoLinearLayout);
+            parentLinearLayout.addView(buttonsLinearLayout);
 
             try {
                 // creating and setting textView Values
-                TextView idTextView = createTextView(listOfTasks.getJSONObject(i).getString("taskId"));
-                TextView titleTextView = createTextView(listOfTasks.getJSONObject(i).getString("title"));
-                TextView descriptionTextView = createTextView(listOfTasks.getJSONObject(i).getString("description"));
-                TextView addressTextView = createTextView(listOfTasks.getJSONObject(i).getString("address"));
-                TextView driverIdTextView = createTextView(listOfTasks.getJSONObject(i).getString("driverId"));
-                TextView statusTextView = createTextView(listOfTasks.getJSONObject(i).getString("status"));
+                TextView idTextView = createTextView("Task ID: "+listOfTasks.getJSONObject(i).getString("taskId"));
+                TextView titleTextView = createTextView("Title: "+listOfTasks.getJSONObject(i).getString("title"));
+                TextView descriptionTextView = createTextView("Description: "+listOfTasks.getJSONObject(i).getString("description"));
+                TextView addressTextView = createTextView("Address"+listOfTasks.getJSONObject(i).getString("address"));
+                TextView driverIdTextView = createTextView("Driver ID: "+listOfTasks.getJSONObject(i).getString("driverId"));
+                TextView statusTextView = createTextView("Status: "+ listOfTasks.getJSONObject(i).getString("status"));
 
                 Button editTaskButton = createEditTaskButton(
                         listOfTasks.getJSONObject(i).getString("taskId"));
@@ -119,25 +142,95 @@ public class TaskManagementFragment extends Fragment {
                 Button deleteTaskButton = createDeleteTaskButton(
                         listOfTasks.getJSONObject(i).getString("taskId"));
 
-                tableRow.addView(idTextView);
-                tableRow.addView(titleTextView);
-                tableRow.addView(descriptionTextView);
-                tableRow.addView(addressTextView);
-                tableRow.addView(driverIdTextView);
-                tableRow.addView(statusTextView);
-                tableRow.addView(editTaskButton);
-                tableRow.addView(deleteTaskButton);
+                Button viewTaskDetailsButton = createViewTaskDetailsButton(listOfTasks.getJSONObject(i).getString("taskId"));
 
-                int paddingVertical = (int) (10 * getResources().getDisplayMetrics().density);
-                tableRow.setPadding(0, paddingVertical, 0, paddingVertical);
+                // adding textviews to layout
+                infoLinearLayout.addView(idTextView);
+                infoLinearLayout.addView(titleTextView);
+                infoLinearLayout.addView(descriptionTextView);
+                infoLinearLayout.addView(addressTextView);
+                infoLinearLayout.addView(driverIdTextView);
+                infoLinearLayout.addView(statusTextView);
+
+                // adding buttons to layout
+                buttonsLinearLayout.addView(editTaskButton);
+                buttonsLinearLayout.addView(viewTaskDetailsButton);
+                buttonsLinearLayout.addView(deleteTaskButton);
 
             } catch (JSONException e) {
                 Log.e("json", "HEHE:" + e.getMessage());
             }
-            tableLayout.addView(tableRow);
         }
         progressDialog.dismiss();
 
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private LinearLayout createParentLinearLayout(){
+        LinearLayout linearLayout = new LinearLayout(requireContext());
+        tableLayout.addView(linearLayout);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+
+
+        int marginBottom = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics()
+        );
+        layoutParams.setMargins(0, marginBottom, 0, marginBottom);
+
+        linearLayout.setLayoutParams(layoutParams);
+
+        // Set orientation and gravity
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setGravity(Gravity.CENTER);
+
+        // Set padding
+        int padding = (int) (20 * getResources().getDisplayMetrics().density);
+        linearLayout.setPadding(padding, padding, padding, padding);
+
+        // Set background color
+        linearLayout.setBackgroundResource(R.drawable.rounded_background);
+
+
+        return  linearLayout;
+
+    }
+
+    private LinearLayout createInfoLinearLayout(){
+        LinearLayout linearLayout = new LinearLayout(this.getContext());
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+
+        linearLayout.setLayoutParams(layoutParams);
+
+        // Set orientation and gravity
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        // Set padding
+        int padding = (int) (10 * getResources().getDisplayMetrics().density);
+        linearLayout.setPadding(0, padding, 0, padding);
+
+        return  linearLayout;
+    }
+
+    private LinearLayout createButtonsLinearLayout(){
+        LinearLayout linearLayout = new LinearLayout(this.getContext());
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+
+        linearLayout.setLayoutParams(layoutParams);
+
+        // Set orientation and gravity
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+        return  linearLayout;
     }
 
     private TextView createTextView(String text) {
@@ -157,11 +250,11 @@ public class TaskManagementFragment extends Fragment {
         textView.setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
 
         // Set text size and style
-        textView.setTextSize(16);
+        textView.setTextSize(18);
         textView.setTypeface(null, Typeface.BOLD);
 
         // Set text color to black
-        textView.setTextColor(getResources().getColor(android.R.color.black));
+        textView.setTextColor(getResources().getColor(android.R.color.white));
 
         return textView;
     }
@@ -169,12 +262,13 @@ public class TaskManagementFragment extends Fragment {
     private Button createEditTaskButton(String taskId) {
         // Create the Button
         Button button = new Button(this.getContext());
-        button.setText("✏️");
-        button.setBackgroundResource(R.drawable.button_drawable); // Set background drawable
+        button.setText("Edit");
+
 
         button.setLayoutParams(new TableRow.LayoutParams(
-                (int) getResources().getDisplayMetrics().scaledDensity * 20,
-                (int) getResources().getDisplayMetrics().scaledDensity * 20));
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
         button.setPadding(0, 0, 0, 0); // Set horizontal padding in dp
         button.setTextSize(16); // Set text size to 16sp
         button.setTypeface(button.getTypeface(), Typeface.BOLD); // Set text style to bold
@@ -184,8 +278,31 @@ public class TaskManagementFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //Edit Task Activity here
-//                Global.getInstance().setDriverId(Integer.parseInt(contentDescription));
-//                startActivity(new Intent(requireContext(), AddingTask.class));
+            }
+        });
+
+        return button;
+    }
+
+    private Button createViewTaskDetailsButton(String taskId){
+        // Create the Button
+        Button button = new Button(this.getContext());
+        button.setText("Details");
+
+
+        button.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        ));
+        button.setPadding(0, 0, 0, 0); // Set horizontal padding in dp
+        button.setTextSize(16); // Set text size to 16sp
+        button.setTypeface(button.getTypeface(), Typeface.BOLD); // Set text style to bold
+        button.setContentDescription(taskId);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //
             }
         });
 
@@ -195,12 +312,11 @@ public class TaskManagementFragment extends Fragment {
     private Button createDeleteTaskButton(String taskId) {
         // Create the Button
         Button button = new Button(this.getContext());
-        button.setText("🗑️");
-        button.setBackgroundResource(R.drawable.button_drawable); // Set background drawable
+        button.setText("Delete");
 
         button.setLayoutParams(new TableRow.LayoutParams(
-                (int) getResources().getDisplayMetrics().scaledDensity * 20,
-                (int) getResources().getDisplayMetrics().scaledDensity * 20));
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
         button.setPadding(0, 0, 0, 0); // Set horizontal padding in dp
         button.setTextSize(16); // Set text size to 16sp
         button.setTypeface(button.getTypeface(), Typeface.BOLD); // Set text style to bold

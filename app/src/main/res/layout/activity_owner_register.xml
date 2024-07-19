@@ -25,7 +25,7 @@
         android:id="@+id/BackFromRegisterBTN"
         android:layout_width="40sp"
         android:layout_height="40sp"
-        android:background="@drawable/home_icon"
+        android:background="@drawable/back_arrow"
         android:contentDescription="Back from login screen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,5 +1,7 @@
 package com.example.fleeto;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -8,13 +10,17 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -151,46 +157,139 @@ public class DriverManagementFragment extends Fragment {
     }
 
     void populateDriverTable(JSONArray listOfDrivers) {
+        if (listOfDrivers.length() == 0){
+            TextView noItemTextView = new TextView(requireContext());
+            noItemTextView.setText("No Drivers to display");
+            noItemTextView.setGravity(Gravity.CENTER);
+            noItemTextView.setTextSize(20);
+            noItemTextView.setTextAppearance(Typeface.BOLD);
+            noItemTextView.setTextColor(getResources().getColor(android.R.color.black));
+            noItemTextView.setPadding(0,10,0,0);
+            tableLayout.addView(noItemTextView);
+            progressDialog.dismiss();
+            return;
+        }
         for (int i = 0; i < listOfDrivers.length(); i++) {
-            TableRow tableRow = new TableRow(this.getContext());
+            // Parent Linear Layout
+            LinearLayout parentLinearLayout = createParentLinearLayout();
+            LinearLayout infoLinearLayout = createInfoLinearLayout();
+            LinearLayout buttonsLinearLayout = createButtonsLinearLayout();
+            parentLinearLayout.addView(infoLinearLayout);
+            parentLinearLayout.addView(buttonsLinearLayout);
+
 
             try {
                 // creating and setting textView Values
-                TextView idTextView = createTextView(listOfDrivers.getJSONObject(i).getString("driverId"));
-                TextView nameTextView = createTextView(listOfDrivers.getJSONObject(i).getString("name"));
-                TextView passwordTextView = createTextView(listOfDrivers.getJSONObject(i).getString("password"));
-                TextView carTextView = createTextView(listOfDrivers.getJSONObject(i).getString("vehicle"));
-                Button addTaskToDriverButton = createAddDriverButton(
+                TextView idTextView = createTextView("Driver ID: " + listOfDrivers.getJSONObject(i).getString("driverId"));
+                TextView nameTextView = createTextView("Name: "+listOfDrivers.getJSONObject(i).getString("name"));
+                TextView passwordTextView = createTextView("Password: "+listOfDrivers.getJSONObject(i).getString("password"));
+                TextView carTextView = createTextView("Car: " + listOfDrivers.getJSONObject(i).getString("vehicle"));
+
+                Button addTaskToDriverButton = createAddTaskToDriverButton(
                         listOfDrivers.getJSONObject(i).getString("driverId"));
+                Button viewTaskDetailsButton = createViewDriverDetailsButton(listOfDrivers.getJSONObject(i).getString("driverId"));
+                Button deleteDriverButton = createDeleteDriverButton(listOfDrivers.getJSONObject(i).getString("driverId"));
 
-                tableRow.addView(idTextView);
-                tableRow.addView(nameTextView);
-                tableRow.addView(passwordTextView);
-                tableRow.addView(carTextView);
-                tableRow.addView(addTaskToDriverButton);
+                // adding info
+                infoLinearLayout.addView(idTextView);
+                infoLinearLayout.addView(nameTextView);
+                infoLinearLayout.addView(passwordTextView);
+                infoLinearLayout.addView(carTextView);
 
-                int paddingVertical = (int) (10 * getResources().getDisplayMetrics().density);
-                tableRow.setPadding(0, paddingVertical, 0, paddingVertical);
+//                adding buttons
+                buttonsLinearLayout.addView(addTaskToDriverButton);
+                buttonsLinearLayout.addView(viewTaskDetailsButton);
+                buttonsLinearLayout.addView(deleteDriverButton);
 
             } catch (JSONException e) {
                 Log.e("json", "HEHE:" + e.getMessage());
             }
-            tableLayout.addView(tableRow);
+
         }
+
         progressDialog.dismiss();
 
 
     }
 
-    private Button createAddDriverButton(String contentDescription) {
+    @SuppressLint("ResourceAsColor")
+    private LinearLayout createParentLinearLayout(){
+        LinearLayout linearLayout = new LinearLayout(requireContext());
+        tableLayout.addView(linearLayout);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+
+
+        int marginBottom = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics()
+        );
+        layoutParams.setMargins(0, marginBottom, 0, marginBottom);
+
+        linearLayout.setLayoutParams(layoutParams);
+
+        // Set orientation and gravity
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setGravity(Gravity.CENTER);
+
+        // Set padding
+        int padding = (int) (20 * getResources().getDisplayMetrics().density);
+        linearLayout.setPadding(padding, padding, padding, padding);
+
+        // Set background color
+        linearLayout.setBackgroundResource(R.drawable.rounded_background);
+
+
+        return  linearLayout;
+
+    }
+
+    private LinearLayout createInfoLinearLayout(){
+        LinearLayout linearLayout = new LinearLayout(this.getContext());
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+
+        linearLayout.setLayoutParams(layoutParams);
+
+        // Set orientation and gravity
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        // Set padding
+        int padding = (int) (10 * getResources().getDisplayMetrics().density);
+        linearLayout.setPadding(0, padding, 0, padding);
+
+        return  linearLayout;
+    }
+
+    private LinearLayout createButtonsLinearLayout(){
+        LinearLayout linearLayout = new LinearLayout(this.getContext());
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+
+        linearLayout.setLayoutParams(layoutParams);
+
+        // Set orientation and gravity
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+        return  linearLayout;
+    }
+
+    private Button createAddTaskToDriverButton(String contentDescription) {
         // Create the Button
         Button button = new Button(this.getContext());
-        button.setText("+");
-        button.setBackgroundResource(R.drawable.button_drawable); // Set background drawable
+        button.setText("Add Task");
 
-        button.setLayoutParams(new TableRow.LayoutParams(
-                (int) getResources().getDisplayMetrics().scaledDensity * 20,
-                (int) getResources().getDisplayMetrics().scaledDensity * 20));
+
+        button.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+                        ));
         button.setPadding(0, 0, 0, 0); // Set horizontal padding in dp
         button.setTextSize(16); // Set text size to 16sp
         button.setTypeface(button.getTypeface(), Typeface.BOLD); // Set text style to bold
@@ -207,7 +306,122 @@ public class DriverManagementFragment extends Fragment {
         return button;
     }
 
+    private Button createViewDriverDetailsButton(String driverId){
+        // Create the Button
+        Button button = new Button(this.getContext());
+        button.setText("Details");
+
+
+        button.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        ));
+        button.setPadding(0, 0, 0, 0); // Set horizontal padding in dp
+        button.setTextSize(16); // Set text size to 16sp
+        button.setTypeface(button.getTypeface(), Typeface.BOLD); // Set text style to bold
+        button.setContentDescription(driverId);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //
+            }
+        });
+
+        return button;
+    }
+
+    private Button createDeleteDriverButton (String driverId){
+        // Create the Button
+        Button button = new Button(this.getContext());
+        button.setText("Delete");
+
+
+        button.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        ));
+        button.setPadding(0, 0, 0, 0); // Set horizontal padding in dp
+        button.setTextSize(16); // Set text size to 16sp
+        button.setTypeface(button.getTypeface(), Typeface.BOLD); // Set text style to bold
+        button.setContentDescription(driverId);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setTitle("Delete Driver");
+                builder.setMessage("Are you sure?");
+                builder.setPositiveButton("Yes", (dialog, which) -> {
+                    // Handle the positive button click
+                    progressDialog.setMessage("Deleting Task");
+
+                    deleteDriver(Integer.parseInt(driverId));
+
+                });
+                builder.setNegativeButton("No", (dialog, which) -> {
+                    // Handle the negative button click
+
+                });
+
+                // Create and show the AlertDialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+        return button;
+    }
+
+    private void deleteDriver (int driverId){
+        progressDialog.setMessage("Deleting Driver...");
+        progressDialog.show();
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
+
+        // Create JSON object for the request body
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("driverId", driverId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
+                ApiPath.getInstance().getUrl() + "/api/driver/delete", jsonBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Toast.makeText(requireContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                            startActivity(new Intent(requireContext(), AdminDash.class));
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("api", "onError: " + error);
+            }
+
+        }
+
+        ) {
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=UTF-8";
+            }
+        };
+
+        // Add the request to the RequestQueue.
+        queue.add(jsonObjectRequest);
+    }
+
     private TextView createTextView(String text) {
+
         TextView textView = new TextView(this.getContext());
 
         // Set text
@@ -226,9 +440,10 @@ public class DriverManagementFragment extends Fragment {
         // Set text size and style
         textView.setTextSize(16);
         textView.setTypeface(null, Typeface.BOLD);
+        textView.setGravity(Gravity.CENTER);
 
         // Set text color to black
-        textView.setTextColor(getResources().getColor(android.R.color.black));
+        textView.setTextColor(getResources().getColor(android.R.color.white));
 
         return textView;
     }
