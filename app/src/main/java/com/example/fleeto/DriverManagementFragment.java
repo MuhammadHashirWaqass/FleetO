@@ -188,7 +188,7 @@ public class DriverManagementFragment extends Fragment {
 
                 Button addTaskToDriverButton = createAddTaskToDriverButton(
                         listOfDrivers.getJSONObject(i).getString("driverId"));
-                Button viewTaskDetailsButton = createViewDriverDetailsButton(listOfDrivers.getJSONObject(i).getString("driverId"));
+                Button viewDriverDetailsButton = createViewDriverDetailsButton(listOfDrivers.getJSONObject(i).getString("driverId"));
                 Button deleteDriverButton = createDeleteDriverButton(listOfDrivers.getJSONObject(i).getString("driverId"));
 
                 // adding info
@@ -199,10 +199,10 @@ public class DriverManagementFragment extends Fragment {
 
 //                adding buttons
                 buttonsLinearLayout.addView(addTaskToDriverButton);
-                buttonsLinearLayout.addView(viewTaskDetailsButton);
+                buttonsLinearLayout.addView(viewDriverDetailsButton);
                 buttonsLinearLayout.addView(deleteDriverButton);
 
-                viewTaskDetailsButton.setOnClickListener(new View.OnClickListener() {
+                viewDriverDetailsButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Dialog dialog = new Dialog(requireContext());
@@ -213,10 +213,10 @@ public class DriverManagementFragment extends Fragment {
                         TextView t3 = dialog.findViewById(R.id.PopupTaskAddress);
                         Button b1 = dialog.findViewById(R.id.btn_ok);
                         b1.setOnClickListener(new View.OnClickListener() {
-                          @Override
-                          public void onClick(View v) {
-                              dialog.dismiss();
-                          }
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
                         });
                         t1.setText("test");
                         t2.setText("test");

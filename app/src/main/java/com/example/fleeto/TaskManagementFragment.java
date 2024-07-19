@@ -2,6 +2,7 @@ package com.example.fleeto;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -144,6 +146,48 @@ public class TaskManagementFragment extends Fragment {
 
                 Button viewTaskDetailsButton = createViewTaskDetailsButton(listOfTasks.getJSONObject(i).getString("taskId"));
 
+                editTaskButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Dialog dialog = new Dialog(requireContext());
+                        dialog.setContentView(R.layout.customdialog_task);
+                        dialog.show();
+                        TextView t1 = dialog.findViewById(R.id.EditTaskTitle);
+                        TextView t2 = dialog.findViewById(R.id.EditTaskDescription);
+                        TextView t3 = dialog.findViewById(R.id.EditTaskAddress);
+                        Button b1 = dialog.findViewById(R.id.btn_yes);
+                        Button b2 = dialog.findViewById(R.id.btn_no);
+                        b2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                    }
+                });
+
+                viewTaskDetailsButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Dialog dialog = new Dialog(requireContext());
+                        dialog.setContentView(R.layout.customdialog_task);
+                        dialog.show();
+                        TextView t1 = dialog.findViewById(R.id.PopupTaskTitle);
+                        TextView t2 = dialog.findViewById(R.id.PopupTaskDescription);
+                        TextView t3 = dialog.findViewById(R.id.PopupTaskAddress);
+                        Button b1 = dialog.findViewById(R.id.btn_ok);
+                        b1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        t1.setText("test");
+                        t2.setText("test");
+                        t3.setText("test");
+                    }
+                });
                 // adding textviews to layout
                 infoLinearLayout.addView(idTextView);
                 infoLinearLayout.addView(titleTextView);

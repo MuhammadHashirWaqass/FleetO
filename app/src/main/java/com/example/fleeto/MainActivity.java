@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent temp = new Intent( MainActivity.this, OwnerLoginActivity.class);
-                overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 startActivity(temp);
             }
         });
