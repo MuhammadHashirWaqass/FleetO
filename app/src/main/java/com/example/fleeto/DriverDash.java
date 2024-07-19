@@ -67,7 +67,7 @@ public class DriverDash extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},998);
             return;
         }
-        startLocationUpdateService();
+        //startLocationUpdateService();
 
         int userId = User.getUserInstance().getUserId();
         IdHeadingTextView = findViewById(R.id.driver_id_heading_label);
@@ -89,10 +89,10 @@ public class DriverDash extends AppCompatActivity {
 
         getDriverTasks();
     }
-    private void startLocationUpdateService() {
-        Intent intent = new Intent(this, LocationUpdateService.class);
-        startService(intent);
-    }
+//    private void startLocationUpdateService() {
+//        Intent intent = new Intent(this, LocationUpdateService.class);
+//        startService(intent);
+//    }
 
     private void getDriverTasks(){
         progressDialog.show();

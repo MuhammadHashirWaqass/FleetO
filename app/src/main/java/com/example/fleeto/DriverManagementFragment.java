@@ -2,6 +2,7 @@ package com.example.fleeto;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -200,6 +201,28 @@ public class DriverManagementFragment extends Fragment {
                 buttonsLinearLayout.addView(addTaskToDriverButton);
                 buttonsLinearLayout.addView(viewTaskDetailsButton);
                 buttonsLinearLayout.addView(deleteDriverButton);
+
+                viewTaskDetailsButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Dialog dialog = new Dialog(requireContext());
+                        dialog.setContentView(R.layout.customdialog_task);
+                        dialog.show();
+                        TextView t1 = dialog.findViewById(R.id.PopupTaskTitle);
+                        TextView t2 = dialog.findViewById(R.id.PopupTaskDescription);
+                        TextView t3 = dialog.findViewById(R.id.PopupTaskAddress);
+                        Button b1 = dialog.findViewById(R.id.btn_ok);
+                        b1.setOnClickListener(new View.OnClickListener() {
+                          @Override
+                          public void onClick(View v) {
+                              dialog.dismiss();
+                          }
+                        });
+                        t1.setText("test");
+                        t2.setText("test");
+                        t3.setText("test");
+                    }
+                });
 
             } catch (JSONException e) {
                 Log.e("json", "HEHE:" + e.getMessage());

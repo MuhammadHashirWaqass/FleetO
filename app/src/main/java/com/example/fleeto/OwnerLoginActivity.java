@@ -63,7 +63,6 @@ public class OwnerLoginActivity extends AppCompatActivity {
         });
         url = ApiPath.getInstance().getUrl();
         mAuth = FirebaseAuth.getInstance();
-        back = findViewById(R.id.BackFromLoginBTN);
         goToDriver = findViewById(R.id.go_to_driver);
 
 
@@ -80,16 +79,6 @@ public class OwnerLoginActivity extends AppCompatActivity {
         int lightBlueColor = Color.parseColor("#6495ED");
         spannableString.setSpan(new ForegroundColorSpan(lightBlueColor), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         Register.setText(spannableString);
-
-        // Click on home
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(OwnerLoginActivity.this, MainActivity.class));
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                finish();
-            }
-        });
 
         // go to owner registration
         Register.setOnClickListener(new View.OnClickListener() {
