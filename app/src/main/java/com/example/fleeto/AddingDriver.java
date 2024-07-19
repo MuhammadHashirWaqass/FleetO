@@ -49,7 +49,7 @@ public class AddingDriver extends AppCompatActivity {
         DriverVehicle= findViewById(R.id.AddingDriverVehicle);
         DriverPass = findViewById(R.id.AddingDriverPassword);
         DriverConfirmPassword = findViewById(R.id.AddingDriverConfirmPassword);
-        DriverLicenseNumber = findViewById(R.id.AddingDriverLicense)
+        DriverLicenseNumber = findViewById(R.id.AddingDriverLicense);
         AddDbtn = findViewById(R.id.ConfirmDriverBTN);
         back = findViewById(R.id.BackFromAddingDBTN);
 
