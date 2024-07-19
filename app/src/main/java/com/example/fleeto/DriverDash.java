@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -33,13 +34,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.api.Distribution;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.IdentityHashMap;
 
 public class DriverDash extends AppCompatActivity {
     TableLayout currentTaskLayout, completedTaskLayout;
@@ -170,6 +168,8 @@ public class DriverDash extends AppCompatActivity {
                     Button markAsDoneButton = createMarkAsDoneButton(
                             listOfTasks.getJSONObject(i).getString("taskId"));
                     newLinearLayout.addView(markAsDoneButton);
+                    Button openMap = createOpenMapButton(listOfTasks.getJSONObject(i).getString("taskId"),String.valueOf(addressTextView.getText()));
+                    newLinearLayout.addView(openMap);
                 }
 
             } catch (JSONException e) {
@@ -200,6 +200,31 @@ public class DriverDash extends AppCompatActivity {
         }
         progressDialog.dismiss();
 
+    }
+
+    private Button createOpenMapButton(String taskId,String address) {
+        Button button = new Button(this);
+        button.setText("Navigate");
+
+        button.setLayoutParams(new TableRow.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        button.setTypeface(button.getTypeface(), Typeface.BOLD); // Set text style to bold
+        button.setContentDescription(taskId);
+        button.setGravity(Gravity.CENTER);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q="+address);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+            }
+        });
+
+        return button;
     }
 
     @SuppressLint("ResourceAsColor")
