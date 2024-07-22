@@ -90,3 +90,4 @@ Contributions are welcome! Please follow these steps:
 
 ## Contact
 For any questions or suggestions, please contact us at [huzaifa.rizwan1231@gmail.com](mailto:huzaifa.rizwan1231@gmail.com).
+OR [hashir.waqass@gmail.com](mailto:hashir.waqass@gmail.com).
