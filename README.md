@@ -78,7 +78,7 @@ FleetO is a comprehensive fleet management application that simplifies the task 
    - **Driver**: Log in using the assigned credentials to view and update tasks.
 
 ### APK Download
-- Download the latest APK from [FleetO APK]([https://drive.google.com/file/d/1csCQ-ez77L7tP_sqblx6EVEPD9Pb6wUD/view?usp=drive_link]).
+- Download the latest APK from [FleetO APK](https://drive.google.com/file/d/1csCQ-ez77L7tP_sqblx6EVEPD9Pb6wUD/view?usp=drive_link).
 
 ## Contributing
 Contributions are welcome! Please follow these steps:
